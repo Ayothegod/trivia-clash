@@ -56,3 +56,15 @@ end
 
 # has_many :followers, TriviaApp.User
 # has_many :followings, TriviaApp.User
+
+
+
+# def change do
+#   alter table(:user_profile) do
+#     # Change the existing field to an array of maps. This will depend on the DB you use; for example, PostgreSQL has the `jsonb` type.
+#     modify :past_achievements, {:array, :jsonb}, default: []
+#     modify :arenas_joined, {:array, :jsonb}, default: []
+#     modify :games_played, {:array, :jsonb}, default: []
+#     modify :past_summaries, {:array, :jsonb}, default: []
+#   end
+# end
