@@ -18,10 +18,11 @@
     min-width: 1.5rem;
     min-height: 1.5rem;
   }
+
+  html, body {
+    overflow-y: auto;
+    overflow-x: auto;
+  }
 }
 
-/* This file is for your main application CSS */
 
-/* html, body {
-  overflow-y: auto;
-} */

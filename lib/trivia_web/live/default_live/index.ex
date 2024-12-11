@@ -3,6 +3,8 @@ defmodule TriviaWeb.DefaultLive.Index do
   # alias Trivia.Arenas
   # alias Trivia.Arenas.Arena
 
+  # <.iconify icon={@my_icon} />
+
   # mix mishka.ui.gen.component alert
   # mix mishka.ui.gen.component alert --color info --variant default
 
