@@ -1,5 +1,7 @@
 defmodule TriviaWeb.DefaultLive.Index do
   use TriviaWeb, :live_view
+  require Logger
+
   # alias Trivia.Arenas
   # alias Trivia.Arenas.Arena
   # <.iconify icon={@my_icon} />
@@ -7,18 +9,16 @@ defmodule TriviaWeb.DefaultLive.Index do
   alias TriviaWeb.Components.Button, as: Button
 
   @impl true
-  @spec mount(any(), any(), map()) :: {:ok, map()}
-  def mount(_params, _session, socket) do
+  def mount(_params, session, socket) do
+    Logger.critical(session)
+    Logger.critical(socket)
 
-    # socket.assigns.current_user.id)
-    user = %{name: "ayomide"}
+    # socket.assigns.current_user.id
 
     socket =
       socket
-      |> assign(:page_title, "Home Page") 
-      |> assign(:user, user)
+      |> assign(:page_title, "Home Page")
       |> assign(:index, "Home page here")
-      |> assign(:default, "This is default data")
 
     {:ok, socket}
   end
