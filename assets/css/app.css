@@ -2,4 +2,14 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+@layer base {
+.body {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-4;
+  }
+
+.debug {
+    @apply border border-blue-500;
+  }
+}
+
 /* This file is for your main application CSS */

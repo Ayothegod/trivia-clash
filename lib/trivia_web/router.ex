@@ -17,17 +17,6 @@ defmodule TriviaWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", TriviaWeb do
-    pipe_through :browser
-
-    get "/", PageController, :home
-  end
-
-  # Other scopes may use custom stacks.
-  # scope "/api", TriviaWeb do
-  #   pipe_through :api
-  # end
-
   # Enable LiveDashboard and Swoosh mailbox preview in development
   if Application.compile_env(:trivia, :dev_routes) do
     # If you want to use the LiveDashboard in production, you should put
@@ -68,6 +57,15 @@ defmodule TriviaWeb.Router do
       on_mount: [{TriviaWeb.UserAuth, :ensure_authenticated}] do
       live "/users/settings", UserSettingsLive, :edit
       live "/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email
+
+      live "/", DefaultLive.Index, :index
+
+      live "/arenas", ArenaLive.Index, :index
+      live "/arenas/new", ArenaLive.Index, :new
+      live "/arenas/:id/edit", ArenaLive.Index, :edit
+
+      live "/arenas/:id", ArenaLive.Show, :show
+      live "/arenas/:id/show/edit", ArenaLive.Show, :edit
     end
   end
 

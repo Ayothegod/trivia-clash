@@ -1,0 +1,46 @@
+<.header>
+  Listing Arenas
+  <:actions>
+    <.link patch={~p"/arenas/new"}>
+      <.button>New Arena</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table
+  id="arenas"
+  rows={@streams.arenas}
+  row_click={fn {_id, arena} -> JS.navigate(~p"/arenas/#{arena}") end}
+>
+  <:col :let={{_id, arena}} label="Is player">{arena.is_player}</:col>
+  <:col :let={{_id, arena}} label="Players">{arena.players}</:col>
+  <:col :let={{_id, arena}} label="Public">{arena.public}</:col>
+  <:col :let={{_id, arena}} label="Arena theme">{arena.arena_theme}</:col>
+  <:col :let={{_id, arena}} label="No of players">{arena.no_of_players}</:col>
+  <:col :let={{_id, arena}} label="Observer capacity">{arena.observer_capacity}</:col>
+  <:action :let={{_id, arena}}>
+    <div class="sr-only">
+      <.link navigate={~p"/arenas/#{arena}"}>Show</.link>
+    </div>
+    <.link patch={~p"/arenas/#{arena}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, arena}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: arena.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal :if={@live_action in [:new, :edit]} id="arena-modal" show on_cancel={JS.patch(~p"/arenas")}>
+  <.live_component
+    module={TriviaWeb.ArenaLive.FormComponent}
+    id={@arena.id || :new}
+    title={@page_title}
+    action={@live_action}
+    arena={@arena}
+    patch={~p"/arenas"}
+  />
+</.modal>
