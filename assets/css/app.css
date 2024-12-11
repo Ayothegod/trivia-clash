@@ -3,13 +3,25 @@
 @import "tailwindcss/utilities";
 
 @layer base {
-.body {
+  .body {
     @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-4;
   }
 
-.debug {
+  .debug {
     @apply border border-blue-500;
+  }
+
+  [iconify] {
+    background-color: currentColor;
+    -webkit-mask-size: cover;
+    mask-size: cover;
+    min-width: 1.5rem;
+    min-height: 1.5rem;
   }
 }
 
 /* This file is for your main application CSS */
+
+/* html, body {
+  overflow-y: auto;
+} */

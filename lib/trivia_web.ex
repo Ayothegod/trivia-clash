@@ -58,6 +58,8 @@ defmodule TriviaWeb do
     end
   end
 
+  @spec live_component() ::
+          {:__block__, [], [{:__block__, [], [...]} | {:use, [...], [...]}, ...]}
   def live_component do
     quote do
       use Phoenix.LiveComponent
@@ -86,6 +88,7 @@ defmodule TriviaWeb do
       # Core UI components and translation
       import TriviaWeb.CoreComponents
       import TriviaWeb.Gettext
+      import Iconify
 
       # Shortcut for generating JS commands
       alias Phoenix.LiveView.JS

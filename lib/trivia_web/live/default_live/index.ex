@@ -1,10 +1,11 @@
 defmodule TriviaWeb.DefaultLive.Index do
   use TriviaWeb, :live_view
-
-  # import TriviaWeb.Components.Button
-
   # alias Trivia.Arenas
   # alias Trivia.Arenas.Arena
+
+  # mix mishka.ui.gen.component alert
+  # mix mishka.ui.gen.component alert --color info --variant default
+
   alias TriviaWeb.Components.Button, as: Button
 
   @impl true

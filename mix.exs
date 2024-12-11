@@ -59,12 +59,10 @@ defmodule Trivia.MixProject do
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.1.1"},
       {:bandit, "~> 1.5"},
-      {:mishka_chelekom, "~> 0.0.1", only: :dev}
+      {:mishka_chelekom, "~> 0.0.1", only: :dev},
+      {:iconify_ex, "~> 0.6.0"}
     ]
   end
-
-  # mix mishka.ui.gen.component alert
-  # mix mishka.ui.gen.component alert --color info --variant default
 
   # Aliases are shortcuts or tasks specific to the current project.
   # For example, to install project dependencies and perform other setup tasks, run:
