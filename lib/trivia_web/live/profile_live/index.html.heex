@@ -1,0 +1,47 @@
+<.header>
+  Listing User profile
+  <:actions>
+    <.link patch={~p"/user_profile/new"}>
+      <.button>New Profile</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table
+  id="user_profile"
+  rows={@streams.user_profile}
+  row_click={fn {_id, profile} -> JS.navigate(~p"/user_profile/#{profile}") end}
+>
+  <:col :let={{_id, profile}} label="Arenas joined">{profile.arenas_joined}</:col>
+  <:col :let={{_id, profile}} label="Games played">{profile.games_played}</:col>
+  <:col :let={{_id, profile}} label="Followers">{profile.followers}</:col>
+  <:col :let={{_id, profile}} label="Followings">{profile.followings}</:col>
+  <:col :let={{_id, profile}} label="Past achievements">{profile.past_achievements}</:col>
+  <:col :let={{_id, profile}} label="Past summaries">{profile.past_summaries}</:col>
+  <:col :let={{_id, profile}} label="Summary is public">{profile.summary_is_public}</:col>
+  <:action :let={{_id, profile}}>
+    <div class="sr-only">
+      <.link navigate={~p"/user_profile/#{profile}"}>Show</.link>
+    </div>
+    <.link patch={~p"/user_profile/#{profile}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, profile}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: profile.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal :if={@live_action in [:new, :edit]} id="profile-modal" show on_cancel={JS.patch(~p"/user_profile")}>
+  <.live_component
+    module={TriviaWeb.ProfileLive.FormComponent}
+    id={@profile.id || :new}
+    title={@page_title}
+    action={@live_action}
+    profile={@profile}
+    patch={~p"/user_profile"}
+  />
+</.modal>

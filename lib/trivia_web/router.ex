@@ -66,6 +66,13 @@ defmodule TriviaWeb.Router do
 
       live "/arenas/:id", ArenaLive.Show, :show
       live "/arenas/:id/show/edit", ArenaLive.Show, :edit
+
+      live "/user_profile", ProfileLive.Index, :index
+      live "/user_profile/new", ProfileLive.Index, :new
+      live "/user_profile/:id/edit", ProfileLive.Index, :edit
+
+      live "/user_profile/:id", ProfileLive.Show, :show
+      live "/user_profile/:id/show/edit", ProfileLive.Show, :edit
     end
   end
 

@@ -9,6 +9,8 @@ defmodule Trivia.Accounts.User do
     field :current_password, :string, virtual: true, redact: true
     field :confirmed_at, :utc_datetime
 
+    has_one :user_profile, Trivia.UserProfile.Profile
+
     timestamps(type: :utc_datetime)
   end
 
