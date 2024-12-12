@@ -5,8 +5,22 @@ defmodule TriviaWeb.ProfileLive.Index do
   alias Trivia.UserProfile.Profile
 
   @impl true
-  def mount(_params, _session, socket) do
-    {:ok, stream(socket, :user_profile, UserProfile.list_user_profile())}
+  def mount(_params, session, socket) do
+    profile = session["user_profile"]
+
+    allProfiles = UserProfile.list_user_profile()
+    IO.inspect(allProfiles, label: "ALl User profile")
+
+    socket =
+      socket
+      |> assign(:profile, profile)
+      |> assign(:user_profile, allProfiles)
+
+    # |> stream(:user_profile, UserProfile.list_user_profile())
+
+    # stream(:user_profile, UserProfile.list_user_profile())
+    # {:ok, stream(socket, :user_profile, UserProfile.list_user_profile())}
+    {:ok, socket}
   end
 
   @impl true

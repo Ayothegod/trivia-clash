@@ -91,3 +91,27 @@ defmodule TriviaWeb.Router do
     end
   end
 end
+
+# <p>Hello, <%= @user_name %></p>
+
+# <% if @is_admin %>
+#   <p>You are an admin.</p>
+# <% else %>
+#   <p>You are a regular user.</p>
+# <% end %>
+
+# <ul>
+#   <%= for item <- @items do %>
+#     <li><%= item %></li>
+#   <% end %>
+# </ul>
+
+# <.form for={@form} phx-submit="save">
+#   <.input field={@form[:name]} type="text" label="Name" />
+#   <.input field={@form[:email]} type="email" label="Email" />
+#   <button>Submit</button>
+# </.form>
+
+# <a href={Routes.user_show_path(@socket, :show, user_id: @user.id)}>View Profile</a>
+
+# <.my_component name={@user_name} />

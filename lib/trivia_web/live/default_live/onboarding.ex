@@ -5,17 +5,25 @@ defmodule TriviaWeb.DefaultLive.Onboard do
   alias Trivia.UserProfile.Profile
   alias Trivia.UserProfile
 
+  alias TriviaWeb.SharedData
+
   @impl true
-  def mount(_params, _session, socket) do
-    # socket.assigns.current_user.id
+  def mount(_params, session, socket) do
     changeset = Profile.changeset(%Profile{})
+
+    links = SharedData.links()
+    profile = TriviaWeb.SharedData.profile(socket, session)
+    IO.inspect(socket, label: "passed shared")
+    IO.inspect(profile, label: "shared profile")
+    IO.inspect(links, label: "shared links")
 
     socket =
       socket
-      |> assign(:page_title, "Onboard Page")
-      |> assign(:logoUrl, "/")
       |> assign(trigger_submit: false, check_errors: false)
       |> assign_form(changeset)
+      |> assign(:page_title, "Onboard Page")
+
+    # |> assign(:profile, profile)
 
     {:ok, socket, temporary_assigns: [form: nil]}
   end
