@@ -10,6 +10,7 @@ defmodule Trivia.UserProfile.Profile do
     field :past_achievements, {:array, :map}, default: []
     field :past_summaries, {:array, :map}, default: []
     field :summary_is_public, :boolean, default: true
+    field :bio, :string, default: "Just a chill guy!"
 
     belongs_to :user, Trivia.Accounts.User
 
