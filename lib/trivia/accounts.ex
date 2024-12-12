@@ -58,7 +58,58 @@ defmodule Trivia.Accounts do
       ** (Ecto.NoResultsError)
 
   """
-  def get_user!(id), do: Repo.get!(User, id)
+
+  # def get_user!(id), do: Repo.get!(User, id)
+
+  def get_user!(id) do
+    query =
+      from u in User,
+        preload: [:user_profile],
+        where: u.id == ^id,
+        select: %{user: u}
+
+    Repo.one!(query)
+  end
+
+  # PROFILE!!!!!!!!!!!!!!: %{
+  #   user: #Trivia.Accounts.User<
+  #     __meta__: #Ecto.Schema.Metadata<:loaded, "users">,
+  #     id: 13,
+  #     email: "Test@gmail.com",
+  #     confirmed_at: nil,
+  #     user_profile: %Trivia.UserProfile.Profile{
+  #       __meta__: #Ecto.Schema.Metadata<:loaded, "user_profile">,
+  #       id: 31,
+  #       arenas_joined: [],
+  #       games_played: [],
+  #       followers: [],
+  #       followings: [],
+  #       past_achievements: [],
+  #       past_summaries: [],
+  #       summary_is_public: true,
+  #       bio: "Just a chill guy! ehh",
+  #       user_id: 13,
+  #       user: #Ecto.Association.NotLoaded<association :user is not loaded>,
+  #       inserted_at: ~U[2024-12-12 06:30:19Z],
+  #       updated_at: ~U[2024-12-12 06:30:19Z]
+  #     },
+  #     inserted_at: ~U[2024-12-12 04:05:59Z],
+  #     updated_at: ~U[2024-12-12 04:05:59Z],
+  #     ...
+  #   >
+  # }
+
+  #   <!--
+  #   <% if @user_profile.user.id==@current_user.id do %>
+  #     <button phx-click="edit_profile">Edit Profile</button>
+  #     <% end %>
+  #   <%= if {@user_profile} do %>
+  # <li>Bio: <%= @user_profile.profile.bio %></li>
+  #   <p class="text-brand">Some condition is true for user: {@user_profile.id}</p>
+  #   <% else %>
+  #   <p>Some condition is false for user</p>
+  #   <% end %>
+  # -->
 
   ## User registration
 

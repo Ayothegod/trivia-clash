@@ -24,8 +24,8 @@ defmodule TriviaWeb.DefaultLive.Onboard do
   def handle_event("save", %{"user_profile" => user_params}, socket) do
     user_id = socket.assigns.current_user.id
     params = Map.put(user_params, "user_id", user_id)
+
     profile = UserProfile.create_profile(params)
-    IO.inspect(profile, label: "New_profile")
 
     case profile do
       {:ok, profile} ->
@@ -50,48 +50,3 @@ defmodule TriviaWeb.DefaultLive.Onboard do
     end
   end
 end
-
-# case Accounts.register_user(user_params) do
-#   {:ok, user} ->
-#     # changeset = Accounts.change_user_registration(user)
-#     {:noreply, socket |> assign(trigger_submit: true) |> assign_form(changeset)}
-
-#   {:error, %Ecto.Changeset{} = changeset} ->
-#     {:noreply, socket |> assign_form(changeset)}
-# end
-#
-#
-#
-#
-#
-#
-#
-
-# def onboard_changeset(user, attrs, opts \\ []) do
-#   user
-#   |> cast(attrs, [:email, :password])
-#   |> validate_email(opts)
-#   |> validate_password(opts)
-# end
-
-# def registration_changeset(user, attrs, opts \\ []) do
-#   user
-#   |> cast(attrs, [:email, :password])
-#   |> validate_email(opts)
-#   |> validate_password(opts)
-# end
-
-# defp validate_email(changeset, opts) do
-#   changeset
-#   |> validate_required([:email])
-#   |> validate_format(:email, ~r/^[^\s]+@[^\s]+$/, message: "must have the @ sign and no spaces")
-#   |> validate_length(:email, max: 160)
-#   |> maybe_validate_unique_email(opts)
-# end
-
-# defp validate_password(changeset, opts) do
-#   changeset
-#   |> validate_required([:password])
-#   |> validate_length(:password, min: 12, max: 72)
-#   |> maybe_hash_password(opts)
-# end

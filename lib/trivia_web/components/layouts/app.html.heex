@@ -22,6 +22,14 @@
 </header>
 
 <main class="body min-h-hero">
+  <h1>User Profile</h1>
+
+  <ul>
+    <li>Email: <%= @user_profile.user.email %>
+    </li>
+  </ul>
+
+
   <.flash_group flash={@flash} />
   <%= @inner_content %>
 </main>
