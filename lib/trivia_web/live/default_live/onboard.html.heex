@@ -1,9 +1,8 @@
 <div class="flex flex-col items-start gap-4">
   Onboard page
 
-  <!--
 
- 
+
   <div class="mx-auto max-w-sm">
     <.header class="text-center">
       Log in to account
@@ -16,21 +15,19 @@
       </:subtitle>
     </.header>
 
-    <.simple_form for={@form} id="login_form" action={~p"/users/log_in"} phx-update="ignore">
-      <.input field={@form[:email]} type="email" label="Email" required />
-      <.input field={@form[:password]} type="password" label="Password" required />
+    <.simple_form for={@form} id="onboard_form" phx-submit="save" phx-trigger-action={@trigger_submit}
+      action={~p"/profile/update?_action=onboard"} method="post">
+      <.input field={@form[:bio]} type="text" label="Bio" placeholder="Enter a short bio..." />
+
+      <.error :if={@check_errors}>
+        Oops, something went wrong! Please check the errors below.
+      </.error>
 
       <:actions>
-        <.input field={@form[:remember_me]} type="checkbox" label="Keep me logged in" />
-        <.link href={~p"/users/reset_password"} class="text-sm font-semibold">
-          Forgot your password?
-        </.link>
-      </:actions>
-      <:actions>
-        <.button phx-disable-with="Logging in..." class="w-full">
-          Log in <span aria-hidden="true">→</span>
+        <.button phx-disable-with="Loading..." class="w-full">
+          Welcome on board <span aria-hidden="true">→</span>
         </.button>
       </:actions>
     </.simple_form>
-  </div> -->
+  </div>
 </div>

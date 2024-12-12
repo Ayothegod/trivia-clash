@@ -14,6 +14,7 @@ defmodule TriviaWeb.DefaultLive.Index do
 
     socket =
       socket
+      |> assign(:logoUrl, "/")
       |> assign(:page_title, "Home Page")
       |> assign(:index, "Home page here")
 

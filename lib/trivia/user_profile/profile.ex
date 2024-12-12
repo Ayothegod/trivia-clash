@@ -1,6 +1,7 @@
 defmodule Trivia.UserProfile.Profile do
   use Ecto.Schema
   import Ecto.Changeset
+  require Logger
 
   schema "user_profile" do
     field :arenas_joined, {:array, :map}, default: []
@@ -10,7 +11,7 @@ defmodule Trivia.UserProfile.Profile do
     field :past_achievements, {:array, :map}, default: []
     field :past_summaries, {:array, :map}, default: []
     field :summary_is_public, :boolean, default: true
-    field :bio, :string, default: "Just a chill guy!"
+    field :bio, :string, default: ""
 
     belongs_to :user, Trivia.Accounts.User
 
@@ -18,49 +19,26 @@ defmodule Trivia.UserProfile.Profile do
   end
 
   @doc false
-  def changeset(profile, attrs) do
+  def changeset(profile, attrs \\ %{}) do
     profile
     |> cast(attrs, [
+      :user_id,
       :arenas_joined,
       :games_played,
       :followers,
       :followings,
       :past_achievements,
       :past_summaries,
-      :summary_is_public
+      :summary_is_public,
+      :bio
     ])
-    |> validate_required([:followers, :followings, :summary_is_public])
   end
-
-  # def onboard_changeset(user, attrs, opts \\ []) do
-  #   user
-  #   |> cast(attrs, [:email, :password])
-  #   |> validate_email(opts)
-  #   |> validate_password(opts)
-  # end
-
-  # def registration_changeset(user, attrs, opts \\ []) do
-  #   user
-  #   |> cast(attrs, [:email, :password])
-  #   |> validate_email(opts)
-  #   |> validate_password(opts)
-  # end
-
-  # defp validate_email(changeset, opts) do
-  #   changeset
-  #   |> validate_required([:email])
-  #   |> validate_format(:email, ~r/^[^\s]+@[^\s]+$/, message: "must have the @ sign and no spaces")
-  #   |> validate_length(:email, max: 160)
-  #   |> maybe_validate_unique_email(opts)
-  # end
-
-  # defp validate_password(changeset, opts) do
-  #   changeset
-  #   |> validate_required([:password])
-  #   |> validate_length(:password, min: 12, max: 72)
-  #   |> maybe_hash_password(opts)
-  # end
 end
+
+# |> validate_required([:user])
+# |> validate_inclusion(:user,
+#   message: "User must be provided."
+# )
 
 # NOTE: arenas jpined
 # [

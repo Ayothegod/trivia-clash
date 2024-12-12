@@ -49,11 +49,13 @@ defmodule Trivia.UserProfile do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_profile(attrs \\ %{}) do
-    %Profile{}
-    |> Profile.changeset(attrs)
-    |> Repo.insert()
+
+  def create_profile(params) do
+    changeset = Profile.changeset(%Profile{}, params)
+    Repo.insert(changeset)
   end
+
+  # INSERT INTO "user_profile" ("arenas_joined","games_played","followers","followings","past_achievements","past_summaries","summary_is_public","user_id","bio","inserted_at","updated_at") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) RETURNING "id" [[], [], [], [], [], [], true, 13, "Just a chill guy! eh", ~U[2024-12-12 04:22:49Z], ~U[2024-12-12 04:22:49Z]]
 
   @doc """
   Updates a profile.

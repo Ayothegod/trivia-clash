@@ -61,7 +61,6 @@ defmodule TriviaWeb.Router do
       live "/", DefaultLive.Index, :index
       live "/onboarding", DefaultLive.Onboard, :index
 
-
       live "/arenas", ArenaLive.Index, :index
       live "/arenas/new", ArenaLive.Index, :new
       live "/arenas/:id/edit", ArenaLive.Index, :edit
@@ -76,6 +75,8 @@ defmodule TriviaWeb.Router do
       live "/user_profile/:id", ProfileLive.Show, :show
       live "/user_profile/:id/show/edit", ProfileLive.Show, :edit
     end
+
+    post "/profile/update", OnboardController, :create
   end
 
   scope "/", TriviaWeb do

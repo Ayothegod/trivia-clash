@@ -6,6 +6,7 @@ defmodule TriviaWeb.UserRegistrationLive do
 
   require Logger
 
+  @spec render(any()) :: Phoenix.LiveView.Rendered.t()
   def render(assigns) do
     ~H"""
     <div class="mx-auto max-w-sm">
@@ -24,7 +25,6 @@ defmodule TriviaWeb.UserRegistrationLive do
         for={@form}
         id="registration_form"
         phx-submit="save"
-        phx-change="validate"
         phx-trigger-action={@trigger_submit}
         action={~p"/users/log_in?_action=registered"}
         method="post"
@@ -44,11 +44,22 @@ defmodule TriviaWeb.UserRegistrationLive do
     """
   end
 
+  #   <.simple_form
+  #   for={@form}
+  #   id="registration_form"
+  #   phx-submit="save"
+  #   phx-change="validate"
+  #   phx-trigger-action={@trigger_submit}
+  #   action={~p"/users/log_in?_action=registered"}
+  #   method="post"
+  # >
+
   def mount(_params, _session, socket) do
     changeset = Accounts.change_user_registration(%User{})
 
     socket =
       socket
+      |> assign(:logoUrl, "/")
       |> assign(trigger_submit: false, check_errors: false)
       |> assign_form(changeset)
 
@@ -56,15 +67,16 @@ defmodule TriviaWeb.UserRegistrationLive do
   end
 
   def handle_event("save", %{"user" => user_params}, socket) do
-    case Accounts.register_user(user_params) do
-      {:ok, user} ->
-        {:ok, _} =
-          Accounts.deliver_user_confirmation_instructions(
-            user,
-            &url(~p"/users/confirm/#{&1}")
-          )
+    account = Accounts.register_user(user_params)
+    IO.inspect(account, label: "New_account")
 
-        # IO.inspect(url(~p"/users/confirm/#{&1}"), label: "Confirmation URL")
+    case account do
+      {:ok, user} ->
+        # {:ok, _} =
+        #   Accounts.deliver_user_confirmation_instructions(
+        #     user,
+        #     &url(~p"/users/confirm/#{&1}")
+        #   )
 
         changeset = Accounts.change_user_registration(user)
         {:noreply, socket |> assign(trigger_submit: true) |> assign_form(changeset)}
@@ -74,10 +86,10 @@ defmodule TriviaWeb.UserRegistrationLive do
     end
   end
 
-  def handle_event("validate", %{"user" => user_params}, socket) do
-    changeset = Accounts.change_user_registration(%User{}, user_params)
-    {:noreply, assign_form(socket, Map.put(changeset, :action, :validate))}
-  end
+  # def handle_event("validate", %{"user" => user_params}, socket) do
+  #   changeset = Accounts.change_user_registration(%User{}, user_params)
+  #   {:noreply, assign_form(socket, Map.put(changeset, :action, :validate))}
+  # end
 
   defp assign_form(socket, %Ecto.Changeset{} = changeset) do
     form = to_form(changeset, as: "user")
