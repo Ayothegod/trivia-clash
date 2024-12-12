@@ -30,6 +30,35 @@ defmodule Trivia.UserProfile.Profile do
     ])
     |> validate_required([:followers, :followings, :summary_is_public])
   end
+
+  # def onboard_changeset(user, attrs, opts \\ []) do
+  #   user
+  #   |> cast(attrs, [:email, :password])
+  #   |> validate_email(opts)
+  #   |> validate_password(opts)
+  # end
+
+  # def registration_changeset(user, attrs, opts \\ []) do
+  #   user
+  #   |> cast(attrs, [:email, :password])
+  #   |> validate_email(opts)
+  #   |> validate_password(opts)
+  # end
+
+  # defp validate_email(changeset, opts) do
+  #   changeset
+  #   |> validate_required([:email])
+  #   |> validate_format(:email, ~r/^[^\s]+@[^\s]+$/, message: "must have the @ sign and no spaces")
+  #   |> validate_length(:email, max: 160)
+  #   |> maybe_validate_unique_email(opts)
+  # end
+
+  # defp validate_password(changeset, opts) do
+  #   changeset
+  #   |> validate_required([:password])
+  #   |> validate_length(:password, min: 12, max: 72)
+  #   |> maybe_hash_password(opts)
+  # end
 end
 
 # NOTE: arenas jpined

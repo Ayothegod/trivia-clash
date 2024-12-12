@@ -5,13 +5,10 @@ defmodule TriviaWeb.DefaultLive.Index do
   # alias Trivia.Arenas
   # alias Trivia.Arenas.Arena
   # <.iconify icon={@my_icon} />
-
-  alias TriviaWeb.Components.Button, as: Button
-
   @impl true
-  def mount(_params, session, socket) do
-    Logger.critical(session)
-    Logger.critical(socket)
+  def mount(_params, _session, socket) do
+    # Logger.critical(session)
+    # Logger.critical(socket)
 
     # socket.assigns.current_user.id
 

@@ -1,13 +1,23 @@
 <div class="flex flex-col items-start gap-4">
   This is the live view index page now!!!!
 
-  <p>
-    <%= @index %>
-  </p>
+  <Dropdown.dropdown relative="relative" clickable>
+    <Dropdown.dropdown_trigger trigger_id="unique_id">
+      <Avatar.avatar color="primary">SB</Avatar.avatar>
+    </Dropdown.dropdown_trigger>
 
-  <.iconify icon="heroicons:rectangle-stack-16-solid" class="w-8 h-8 text-base-content cursor-pointer" />
-  <.iconify icon="heroicons:users-solid" class="w-8 h-8 text-base-content cursor-pointer" />
+    <Dropdown.dropdown_content id="unique_id" space="small" rounded="large" width="w-24" padding="extra_small"
+      class=" bg-red-600">
+      Hello
+    </Dropdown.dropdown_content>
+  </Dropdown.dropdown>
 
-  <Button.button color="dark">Dark</Button.button>
-  <Button.button color="primary">Primary</Button.button>
+  lorem2000
+
+  <!-- 
+    <.iconify icon="heroicons:rectangle-stack-16-solid" class="w-8 h-8 text-base-content cursor-pointer" />
+    <.iconify icon="heroicons:users-solid" class="w-8 h-8 text-base-content cursor-pointer" />
+    <Button.button color="dark">Dark</Button.button>
+  -->
+
 </div>

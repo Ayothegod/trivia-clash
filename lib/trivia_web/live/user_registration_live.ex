@@ -4,6 +4,8 @@ defmodule TriviaWeb.UserRegistrationLive do
   alias Trivia.Accounts
   alias Trivia.Accounts.User
 
+  require Logger
+
   def render(assigns) do
     ~H"""
     <div class="mx-auto max-w-sm">
@@ -61,6 +63,8 @@ defmodule TriviaWeb.UserRegistrationLive do
             user,
             &url(~p"/users/confirm/#{&1}")
           )
+
+        # IO.inspect(url(~p"/users/confirm/#{&1}"), label: "Confirmation URL")
 
         changeset = Accounts.change_user_registration(user)
         {:noreply, socket |> assign(trigger_submit: true) |> assign_form(changeset)}

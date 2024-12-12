@@ -90,6 +90,12 @@ defmodule TriviaWeb do
       import TriviaWeb.Gettext
       import Iconify
 
+      alias TriviaWeb.Components.Button, as: Button
+      alias TriviaWeb.Components.Avatar, as: Avatar
+      alias TriviaWeb.Components.Dropdown, as: Dropdown
+
+      alias TriviaWeb.Components.Utils.Logo, as: Logo
+
       # Shortcut for generating JS commands
       alias Phoenix.LiveView.JS
 

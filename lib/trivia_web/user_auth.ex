@@ -5,6 +5,7 @@ defmodule TriviaWeb.UserAuth do
   import Phoenix.Controller
 
   alias Trivia.Accounts
+  require Logger
 
   # Make the remember me cookie valid for 60 days.
   # If you want bump or reduce this value, also change
@@ -25,6 +26,16 @@ defmodule TriviaWeb.UserAuth do
   disconnected on log out. The line can be safely removed
   if you are not using LiveView.
   """
+
+  # Logger.critical(params)
+
+  # Logger.critical(user_return_to)
+  # Logger.critical("/")
+
+  # IO.inspect(user_return_to)
+  # IO.inspect("/")
+
+  # new_path = "/onboarding"
   def log_in_user(conn, user, params \\ %{}) do
     token = Accounts.generate_user_session_token(user)
     user_return_to = get_session(conn, :user_return_to)
