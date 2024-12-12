@@ -3,9 +3,11 @@ defmodule TriviaWeb.Components.Utils.Logo do
 
   def logo(assigns) do
     ~H"""
-    <h2 class="text-xl font-bold text-brand">
-      Trivia-Clash - {@url}
-    </h2>
+    <.link navigate={~p"/#{@url}"}>
+      <h2 class="text-xl font-bold text-brand">
+        Trivia-Clash
+      </h2>
+    </.link>
     """
   end
 end

@@ -99,18 +99,6 @@ defmodule Trivia.Accounts do
   #   >
   # }
 
-  #   <!--
-  #   <% if @user_profile.user.id==@current_user.id do %>
-  #     <button phx-click="edit_profile">Edit Profile</button>
-  #     <% end %>
-  #   <%= if {@user_profile} do %>
-  # <li>Bio: <%= @user_profile.profile.bio %></li>
-  #   <p class="text-brand">Some condition is true for user: {@user_profile.id}</p>
-  #   <% else %>
-  #   <p>Some condition is false for user</p>
-  #   <% end %>
-  # -->
-
   ## User registration
 
   @doc """
