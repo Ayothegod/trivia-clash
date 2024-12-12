@@ -13,6 +13,8 @@ defmodule TriviaWeb.SharedData do
   def profile(socket, _session) do
     id = socket.assigns.current_user.id
     profile = Accounts.get_user!(id)
+
+    {:ok, profile}
   end
 end
 

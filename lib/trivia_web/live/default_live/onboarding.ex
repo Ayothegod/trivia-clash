@@ -4,6 +4,7 @@ defmodule TriviaWeb.DefaultLive.Onboard do
 
   alias Trivia.UserProfile.Profile
   alias Trivia.UserProfile
+  alias Trivia.Accounts.User
 
   alias TriviaWeb.SharedData
 
@@ -11,11 +12,20 @@ defmodule TriviaWeb.DefaultLive.Onboard do
   def mount(_params, session, socket) do
     changeset = Profile.changeset(%Profile{})
 
-    links = SharedData.links()
+    # links = SharedData.links()
     profile = TriviaWeb.SharedData.profile(socket, session)
-    IO.inspect(socket, label: "passed shared")
-    IO.inspect(profile, label: "shared profile")
-    IO.inspect(links, label: "shared links")
+    # IO.inspect(profile)
+    # IO.inspect(links, label: "shared links")
+
+    case profile do
+      {:ok, %{"email" => email}} ->
+        IO.inspect(email, label: "user data")
+        {:noreply, socket}
+
+      {:error, _} ->
+        Logger.error("This is an error!")
+        {:noreply, socket}
+    end
 
     socket =
       socket

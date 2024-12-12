@@ -1,44 +1,11 @@
 <header class="body h-14 border-b flex items-center justify-between">
   <Logo.logo />
 
-  <div class="flex gap-2 items-center">
-    <.link href={~p"/users/log_out"} method="delete">
-      <Button.button size="medium">
-        Log out
-      </Button.button>
-    </.link>
 
-    <%!-- <Dropdown.dropdown relative="relative" clickable>
-      <Dropdown.dropdown_trigger trigger_id="unique_id">
-        <Avatar.avatar color="primary">SB</Avatar.avatar>
-      </Dropdown.dropdown_trigger>
-
-      <Dropdown.dropdown_content id="unique_id" space="small" rounded="large" width="w-96" padding="extra_small"
-        class="w-36 bg-red-600 mt-2">
-        <ul :for={link <- @links}>
-          <.link navigate={~p"/#{link.url}"} class="flex gap-2 items-center group">
-            <.iconify icon={link.icon} class="group-hover:text-brand" />
-            <li class="group-hover:text-brand">{link.title}</li>
-          </.link>
-        </ul>
-      </Dropdown.dropdown_content>
-      </Dropdown.dropdown>
-      --%>
-  </div>
 </header>
 
-<%!-- <.link navigate={~p"/onboarding"}>Onboard</.link>
-  <.link navigate={Routes.user_path(@socket, :index, id: link.url)} class="flex gap-2 items-center group">
-    <.iconify icon="heroicons:rectangle-stack-16-solid" class="w-8 h-8 text-base-content cursor-pointer text-brand" />
-    <.iconify icon={@icon} />
-    <ul>
-      <li>Email: <%= @profile.user.email %>
-      </li>
-    </ul>
-    --%>
+<main class="body min-h-hero">
 
-    <main class="body min-h-hero">
-
-      <.flash_group flash={@flash} />
-      <%= @inner_content %>
-    </main>
+  <.flash_group flash={@flash} />
+  <%= @inner_content %>
+</main>
