@@ -9,7 +9,6 @@ defmodule Trivia.ArenaThemeContext.ArenaTheme do
     field :status, :boolean, default: false
     field :description, :string
     field :color_scheme, :map
-    belongs_to :arena, Trivia.Arenas.Arena
 
     timestamps(type: :utc_datetime)
   end

@@ -12,7 +12,7 @@ defmodule Trivia.Arenas.Arena do
     field :no_of_players, :integer, default: 2
     field :observer_capacity, :integer, default: 6
 
-    has_one :arena_theme, Trivia.ArenaThemeContext.ArenaTheme
+    belongs_to :arena_theme, Trivia.ArenaThemeContext.ArenaTheme
 
     timestamps(type: :utc_datetime)
   end
