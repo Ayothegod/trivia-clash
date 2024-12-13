@@ -94,6 +94,7 @@ defmodule TriviaWeb do
       alias TriviaWeb.Components.Avatar, as: Avatar
       alias TriviaWeb.Components.Dropdown, as: Dropdown
       alias TriviaWeb.Components.Breadcrumb, as: Breadcrumb
+      alias TriviaWeb.Components.Tabs, as: Tabs
 
       alias TriviaWeb.Components.Utils.Logo, as: Logo
 
