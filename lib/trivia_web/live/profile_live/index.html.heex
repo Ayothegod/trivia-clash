@@ -1,60 +1,83 @@
-<.header>
-  Listing User profile
-  <:actions>
-    <.link patch={~p"/user_profile/new"}>
-      <.button>New Profile</.button>
-    </.link>
-  </:actions>
-</.header>
+<section class="py-2">
+  <.header>
+    <Breadcrumb.breadcrumb>
+      <:item link={~p"/"}>Home</:item>
+      <:item>Profile</:item>
+    </Breadcrumb.breadcrumb>
+  </.header>
 
-<p>Email: {@user.email}</p>
+  <main class="mt-2">
+    <div class="flex flex-col gap-2">
+      <div class="w-full h-36 border bg-neutral-300 rounded-md overflow-hidden"></div>
+
+      <div class="flex items-center gap-2 mt-2">
+        <div class="w-28 h-28 border bg-neutral-300 rounded-full overflow-hidden"></div>
+
+        <div>
+          <p>User data: { @user.email}</p>
 
 
-<.modal :if={@live_action in [:new, :edit]} id="profile-modal" show on_cancel={JS.patch(~p"/profile")}>
-  <.live_component module={TriviaWeb.ProfileLive.FormComponent} id={@profile.id || :new} title={@page_title}
-    action={@live_action} profile={@profile} patch={~p"/profile"} />
-</.modal>
-
-<%!-- <.table id="user_profile" rows={@streams.user_profile} row_click={fn {_id, profile} ->
-  JS.navigate(~p"/user_profile/#{profile}") end}
-  >
-  <:col :let={{_id, profile}} label="Arenas joined">{profile.arenas_joined}</:col>
-  <:col :let={{_id, profile}} label="Games played">{profile.games_played}</:col>
-  <:col :let={{_id, profile}} label="Followers">{profile.followers}</:col>
-  <:col :let={{_id, profile}} label="Followings">{profile.followings}</:col>
-  <:col :let={{_id, profile}} label="Past achievements">{profile.past_achievements}</:col>
-  <:col :let={{_id, profile}} label="Past summaries">{profile.past_summaries}</:col>
-  <:col :let={{_id, profile}} label="Summary is public">{profile.summary_is_public}</:col>
-  <:col :let={{_id, profile}} label="Bio">{profile.bio}</:col>
-
-  <:action :let={{_id, profile}}>
-    <div class="sr-only">
-      <.link navigate={~p"/user_profile/#{profile.id}"}>Show</.link>
+        </div>
+      </div>
     </div>
-    <.link patch={~p"/user_profile/#{profile}/edit"}>Edit</.link>
-  </:action>
-  <:action :let={{id, profile}}>
-    <.link phx-click={JS.push("delete", value: %{id: profile.id}) |> hide("##{id}")}
-      data-confirm="Are you sure?"
+
+    <.modal :if={@live_action in [:new, :edit]} id="profile-modal" show on_cancel={JS.patch(~p"/profile")}>
+      <.live_component module={TriviaWeb.ProfileLive.FormComponent} id={@profile.id || :new} title={@page_title}
+        action={@live_action} profile={@profile} patch={~p"/profile"} />
+    </.modal>
+  </main>
+</section>
+
+<%!-- <%=if @user do %>
+  <p>{@user.email}</p>
+  <% end %>
+
+    <.table id="user_profile" rows={@streams.user_profile} row_click={fn {_id, profile} ->
+      JS.navigate(~p"/user_profile/#{profile}") end}
       >
-      Delete
-    </.link>
-  </:action>
-  </%.table>
+      <:col :let={{_id, profile}} label="Arenas joined">{profile.arenas_joined}</:col>
+      <:col :let={{_id, profile}} label="Games played">{profile.games_played}</:col>
+      <:col :let={{_id, profile}} label="Followers">{profile.followers}</:col>
+      <:col :let={{_id, profile}} label="Followings">{profile.followings}</:col>
+      <:col :let={{_id, profile}} label="Past achievements">{profile.past_achievements}</:col>
+      <:col :let={{_id, profile}} label="Past summaries">{profile.past_summaries}</:col>
+      <:col :let={{_id, profile}} label="Summary is public">{profile.summary_is_public}</:col>
+      <:col :let={{_id, profile}} label="Bio">{profile.bio}</:col>
+
+      <:action :let={{_id, profile}}>
+        <div class="sr-only">
+          <.link navigate={~p"/user_profile/#{profile.id}"}>Show</.link>
+        </div>
+        <.link patch={~p"/user_profile/#{profile}/edit"}>Edit</.link>
+      </:action>
+      <:action :let={{id, profile}}>
+        <.link phx-click={JS.push("delete", value: %{id: profile.id}) |> hide("##{id}")}
+          data-confirm="Are you sure?"
+          >
+          Delete
+        </.link>
+      </:action>
+      </%.table>
 
 
-  <%= if @live_action==:new do %>
-    <h1>Create a New Profile</h1>
-    <% elsif @live_action==:edit do %>
-      <h1>Edit Profile</h1>
-      <% else %>
-        <h1>View Profile</h1>
-        <% end %>
+      <%= if @live_action==:new do %>
+        <h1>Create a New Profile</h1>
+        <% elsif @live_action==:edit do %>
+          <h1>Edit Profile</h1>
+          <% else %>
+            <h1>View Profile</h1>
+            <% end %>
 
-          <%= if @live_action in [:edit, :new] do %>
-            <button phx-click="save">Save</button>
-            <% else %>
-              <button phx-click="delete">Delete</button>
-              <% end %>
+              <%= if @live_action in [:edit, :new] do %>
+                <button phx-click="save">Save</button>
+                <% else %>
+                  <button phx-click="delete">Delete</button>
+                  <% end %>
 
-                --%>
+                    <:actions>
+                      <.link patch={~p"/user_profile/new"}>
+                        <.button>New Profile</.button>
+                      </.link>
+                    </:actions>
+
+                    --%>

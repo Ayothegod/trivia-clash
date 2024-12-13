@@ -13,7 +13,7 @@ defmodule TriviaWeb.ProfileLive.Index do
     socket =
       case SharedData.profile(socket) do
         {:ok, %{user: userData}} ->
-          IO.inspect(userData.email, label: "User Email")
+          IO.inspect(userData.user_profile.bio, label: "User data")
           assign(socket, :user, userData)
 
         {:error, :not_found} ->
@@ -30,8 +30,9 @@ defmodule TriviaWeb.ProfileLive.Index do
       |> assign(:page_title, "Profile Page")
       |> assign(:links, links)
 
-    user_profile = UserProfile.list_user_profile()
     # IO.inspect(user_profile, label: "User profiles")
+
+    user_profile = UserProfile.list_user_profile()
     {:ok, stream(socket, :user_profile, user_profile)}
   end
 
