@@ -39,7 +39,32 @@ defmodule Trivia.UserProfile.Profile do
       :level
     ])
   end
+
+  def createProfile(profile, attrs) do
+    profile
+    |> cast(attrs, [
+      :user_id,
+      :bio,
+      :fullname
+    ])
+    |> validate_fullname()
+    |> validate_bio()
+  end
+
+  defp validate_fullname(changeset) do
+    changeset
+    |> validate_required([:fullname], message: "enter your full name.")
+    |> validate_length(:fullname, max: 160)
+  end
+
+  defp validate_bio(changeset) do
+    changeset
+    |> validate_required([:bio], message: "enter a short bio...")
+    |> validate_length(:bio, min: 6, max: 250)
+  end
 end
+
+# required
 
 # |> validate_required([:user])
 # |> validate_inclusion(:user,

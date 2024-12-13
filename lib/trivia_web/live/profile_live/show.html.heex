@@ -2,7 +2,7 @@
   Profile {@profile.id}
   <:subtitle>This is a profile record from your database.</:subtitle>
   <:actions>
-    <.link patch={~p"/user_profile/#{@profile}/show/edit"} phx-click={JS.push_focus()}>
+    <.link patch={~p"/profile/#{@profile}/show/edit"} phx-click={JS.push_focus()}>
       <.button>Edit profile</.button>
     </.link>
   </:actions>
@@ -18,15 +18,9 @@
   <:item title="Summary is public">{@profile.summary_is_public}</:item>
 </.list>
 
-<.back navigate={~p"/user_profile"}>Back to user_profile</.back>
+<.back navigate={~p"/profile"}>Back to user_profile</.back>
 
-<.modal :if={@live_action == :edit} id="profile-modal" show on_cancel={JS.patch(~p"/user_profile/#{@profile}")}>
-  <.live_component
-    module={TriviaWeb.ProfileLive.FormComponent}
-    id={@profile.id}
-    title={@page_title}
-    action={@live_action}
-    profile={@profile}
-    patch={~p"/user_profile/#{@profile}"}
-  />
+<.modal :if={@live_action==:edit} id="profile-modal" show on_cancel={JS.patch(~p"/profile/#{@profile}")}>
+  <.live_component module={TriviaWeb.ProfileLive.FormComponent} id={@profile.id} title={@page_title}
+    action={@live_action} profile={@profile} patch={~p"/profile/#{@profile}"} />
 </.modal>

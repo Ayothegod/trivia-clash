@@ -92,7 +92,7 @@ defmodule Trivia.UserProfile do
   """
 
   def create_profile(params) do
-    changeset = Profile.changeset(%Profile{}, params)
+    changeset = Profile.createProfile(%Profile{}, params)
     Repo.insert(changeset)
   end
 

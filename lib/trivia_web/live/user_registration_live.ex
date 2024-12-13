@@ -34,8 +34,8 @@ defmodule TriviaWeb.UserRegistrationLive do
           Oops, something went wrong! Please check the errors below.
         </.error>
 
-        <.input field={@form[:email]} type="email" label="Email" required />
-        <.input field={@form[:password]} type="password" label="Password" required />
+        <.input field={@form[:email]} type="email" label="Email" />
+        <.input field={@form[:password]} type="password" label="Password" />
 
         <:actions>
           <.button phx-disable-with="Creating account..." class="w-full">Create an account</.button>
@@ -50,9 +50,9 @@ defmodule TriviaWeb.UserRegistrationLive do
 
     socket =
       socket
-      |> assign(:logoUrl, "/")
       |> assign(trigger_submit: false, check_errors: false)
       |> assign_form(changeset)
+      |> assign(:user, nil)
 
     {:ok, socket, temporary_assigns: [form: nil]}
   end
@@ -63,12 +63,6 @@ defmodule TriviaWeb.UserRegistrationLive do
 
     case account do
       {:ok, user} ->
-        # {:ok, _} =
-        #   Accounts.deliver_user_confirmation_instructions(
-        #     user,
-        #     &url(~p"/users/confirm/#{&1}")
-        #   )
-
         changeset = Accounts.change_user_registration(user)
         {:noreply, socket |> assign(trigger_submit: true) |> assign_form(changeset)}
 

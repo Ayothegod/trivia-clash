@@ -18,9 +18,18 @@
         <div>
           <p>User data: { @user.email}</p>
 
+          <%= if @user.user_profile do %>
+            <p>Fullname: { @user.user_profile.fullname}</p>
+            <p>Level: { @user.user_profile.level}</p>
+            <% end %>
+
         </div>
+        <.link patch={~p"/user_profile/new"}>
+          <.button>New Profile</.button>
+        </.link>
       </div>
     </div>
+
 
     <.modal :if={@live_action in [:new, :edit]} id="profile-modal" show on_cancel={JS.patch(~p"/profile")}>
       <.live_component module={TriviaWeb.ProfileLive.FormComponent} id={@profile.id || :new} title={@page_title}
@@ -33,36 +42,36 @@
   <p>{@user.email}</p>
   <% end %>
 
-    <img src="<%= Routes.static_path(@conn, " /uploads/default.png") %>" alt="Profile Picture" />
-    <img src="https://ui-avatars.com/api/?name=<%= URI.encode(@user.email || " Default User") %>" alt="Profile
-    Picture" />
+    <% else %>
+      <.modal :if={@live_action in [:create_profile, :update_profile]} id="update-profile-modal" show
+        on_cancel={JS.patch(~p"/profile")}>
+        <p>Update Profile</p>
+      </.modal>
+      <img src="<%= Routes.static_path(@conn, " /uploads/default.png") %>" alt="Profile Picture" />
+      <img src="https://ui-avatars.com/api/?name=<%= URI.encode(@user.email || " Default User") %>" alt="Profile
+      Picture" />
 
-    <:action :let={{id, profile}}>
-      <.link phx-click={JS.push("delete", value: %{id: profile.id}) |> hide("##{id}")}
-        data-confirm="Are you sure?"
-        >
-        Delete
-      </.link>
-    </:action>
+      <:action :let={{id, profile}}>
+        <.link phx-click={JS.push("delete", value: %{id: profile.id}) |> hide("##{id}")}
+          data-confirm="Are you sure?"
+          >
+          Delete
+        </.link>
+      </:action>
 
-    <%= if @live_action==:new do %>
-      <h1>Create a New Profile</h1>
-      <% elsif @live_action==:edit do %>
-        <h1>Edit Profile</h1>
-        <% else %>
-          <h1>View Profile</h1>
-          <% end %>
+      <%= if @live_action==:new do %>
+        <h1>Create a New Profile</h1>
+        <% elsif @live_action==:edit do %>
+          <h1>Edit Profile</h1>
+          <% else %>
+            <h1>View Profile</h1>
+            <% end %>
 
-            <%= if @live_action in [:edit, :new] do %>
-              <button phx-click="save">Save</button>
-              <% else %>
-                <button phx-click="delete">Delete</button>
-                <% end %>
+              <%= if @live_action in [:edit, :new] do %>
+                <button phx-click="save">Save</button>
+                <% else %>
+                  <button phx-click="delete">Delete</button>
+                  <% end %>
 
-                  <:actions>
-                    <.link patch={~p"/user_profile/new"}>
-                      <.button>New Profile</.button>
-                    </.link>
-                  </:actions>
 
-                  --%>
+                    --%>

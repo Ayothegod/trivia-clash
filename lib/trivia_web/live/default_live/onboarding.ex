@@ -5,35 +5,19 @@ defmodule TriviaWeb.DefaultLive.Onboard do
   alias Trivia.UserProfile.Profile
   alias Trivia.UserProfile
   # alias Trivia.Accounts.User
-
-  alias TriviaWeb.SharedData
+  # alias TriviaWeb.SharedData
 
   @impl true
+  @spec mount(any(), any(), map()) :: {:ok, map(), [{:temporary_assigns, [...]}, ...]}
   def mount(_params, _session, socket) do
     changeset = Profile.changeset(%Profile{})
-    links = SharedData.links()
-
-    socket =
-      case SharedData.profile(socket) do
-        {:ok, %{user: userData}} ->
-          IO.inspect(userData.email, label: "User Email")
-          assign(socket, :user, userData)
-
-        {:error, :not_found} ->
-          Logger.error("User not found!")
-          redirect(socket, to: "/users/logout_redirect")
-
-        {:error, :unauthenticated} ->
-          Logger.error("User is unauthenticated!")
-          redirect(socket, to: "/users/log_in")
-      end
 
     socket =
       socket
       |> assign(trigger_submit: false, check_errors: false)
       |> assign_form(changeset)
       |> assign(:page_title, "Onboard Page")
-      |> assign(:links, links)
+      |> assign(:user, nil)
 
     {:ok, socket, temporary_assigns: [form: nil]}
   end
@@ -43,6 +27,9 @@ defmodule TriviaWeb.DefaultLive.Onboard do
     user_id = socket.assigns.current_user.id
     params = Map.put(user_params, "user_id", user_id)
 
+    IO.inspect(user_params, label: "params")
+    IO.inspect(params, label: "params")
+
     profile = UserProfile.create_profile(params)
 
     case profile do
@@ -50,7 +37,7 @@ defmodule TriviaWeb.DefaultLive.Onboard do
         socket =
           socket |> assign(profile: profile)
 
-        changeset = Profile.changeset(profile)
+        changeset = Profile.createProfile(%Profile{}, user_params)
         {:noreply, socket |> assign(trigger_submit: true) |> assign_form(changeset)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -58,16 +45,40 @@ defmodule TriviaWeb.DefaultLive.Onboard do
     end
   end
 
+  def handle_event("validate", %{"user_profile" => user_params}, socket) do
+    changeset = Profile.createProfile(%Profile{}, user_params)
+    {:noreply, assign_form(socket, Map.put(changeset, :action, :validate))}
+  end
+
   defp assign_form(socket, %Ecto.Changeset{} = changeset) do
     form = to_form(changeset, as: "user_profile")
 
     if changeset.valid? do
-      assign(socket, form: form)
+      assign(socket, form: form, check_errors: false)
     else
       assign(socket, form: form)
     end
   end
 end
+
+# -
+# -
+# -
+# -
+# -
+# -
+# -
+# --
+
+# -
+# -
+# -
+# -
+# -
+
+# -
+# -
+# -
 
 # # Assuming you have a user with ID 1
 # user = Repo.get!(Trivia.Accounts.User, 1)
