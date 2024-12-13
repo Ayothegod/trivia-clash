@@ -13,6 +13,9 @@ defmodule TriviaWeb.Router do
     plug :fetch_current_user
   end
 
+  # plug TriviaWeb.RouteCheckPlug
+  # plug TriviaWeb.UserAssignPlug
+
   pipeline :api do
     plug :accepts, ["json"]
   end

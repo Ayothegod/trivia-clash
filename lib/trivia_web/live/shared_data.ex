@@ -34,10 +34,10 @@ defmodule TriviaWeb.SharedData do
   end
 end
 
-# if user.user.user_profile == nil do
-#   IO.inspect("no profile")
-#   {:error, :not_found}
-# else
-#   IO.inspect(user.user.user_profile)
-#   {:ok, user}
-# end
+#   if user.user.user_profile == nil do
+#     IO.inspect("no profile")
+#     {:error, :not_found}
+#   else
+#     IO.inspect(user.user.user_profile)
+#     {:ok, user}
+#   end

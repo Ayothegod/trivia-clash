@@ -41,8 +41,8 @@ defmodule TriviaWeb.UserLoginLive do
 
     socket =
       socket
-      |> assign(:logoUrl, "/")
       |> assign(form: form)
+      |> assign(:user, nil)
 
     {:ok, socket, temporary_assigns: [form: form]}
   end

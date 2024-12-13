@@ -3,7 +3,7 @@
 
   <%= if @user do %>
     <div class="flex gap-1 items-center">
-      <.link phx-click="log_out">
+      <.link href={~p"/users/log_out"} method="delete">
         <Button.button size="medium">
           Log out
         </Button.button>
@@ -37,6 +37,7 @@
         </.link>
       </div>
       <% end %>
+
 </header>
 
 <main class="body min-h-hero">

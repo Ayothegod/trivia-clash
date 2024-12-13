@@ -69,15 +69,6 @@ defmodule TriviaWeb.DefaultLive.Onboard do
   end
 end
 
-# -
-# -
-# --
-# -
-# ---
-# --
-
-# --
-
 # # Assuming you have a user with ID 1
 # user = Repo.get!(Trivia.Accounts.User, 1)
 
