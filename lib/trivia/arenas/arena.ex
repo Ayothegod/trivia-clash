@@ -10,10 +10,11 @@ defmodule Trivia.Arenas.Arena do
     field :no_of_players, :integer, default: 2
     field :observer_capacity, :integer, default: 6
 
+    # has_one :user_profile, Trivia.UserProfile.Profile
+
     timestamps(type: :utc_datetime)
   end
 
-  @doc false
   def changeset(arena, attrs) do
     arena
     |> cast(attrs, [:no_of_players, :observer_capacity])
@@ -21,6 +22,9 @@ defmodule Trivia.Arenas.Arena do
     |> validate_inclusion(:no_of_players, 2..6,
       message: "Number of players must be between 2 and 6."
     )
-    |> validate_number(:observer_capacity, greater_than_or_equal_to: 0, message: "Observer capacity must be non-negative.")
+    |> validate_number(:observer_capacity,
+      greater_than_or_equal_to: 0,
+      message: "Observer capacity must be non-negative."
+    )
   end
 end

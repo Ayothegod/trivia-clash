@@ -97,8 +97,12 @@ defmodule TriviaWeb.Router do
   end
 end
 
+# DONE: basic heex rendering templates
 # <p>Hello, <%= @user_name %></p>
+# <p>Fullname: <%= @user.user_profile.fullname || "Hello" %></p>
+# <p>Fullname: <%= if @user.user_profile.fullname, do: @user.user_profile.fullname, else: "Hello" %></p>
 
+# NOTE: basic logic template rendering
 # <% if @is_admin %>
 #   <p>You are an admin.</p>
 # <% else %>
@@ -111,6 +115,13 @@ end
 #   <% end %>
 # </ul>
 
+# <%= case @user.user_profile.fullname do %>
+#   <% nil -> %>
+#     <p>Fullname: Hello</p>
+#   <% fullname -> %>
+#     <p>Fullname: <%= fullname %></p>
+# <% end %>
+
 # <.form for={@form} phx-submit="save">
 #   <.input field={@form[:name]} type="text" label="Name" />
 #   <.input field={@form[:email]} type="email" label="Email" />
@@ -118,31 +129,76 @@ end
 # </.form>
 
 # <a href={Routes.user_show_path(@socket, :show, user_id: @user.id)}>View Profile</a>
-
 # <.my_component name={@user_name} />
-
-# <%!-- <.link navigate={~p"/onboarding"}>Onboard</.link>
 #   <.link navigate={Routes.user_path(@socket, :index, id: link.url)} class="flex gap-2 items-center group">
-#     <.iconify icon="heroicons:rectangle-stack-16-solid" class="w-8 h-8 text-base-content cursor-pointer text-brand" />
 #     <.iconify icon={@icon} />
-#     <ul>
-#       <li>Email: <%= @profile.user.email %>
-#       </li>
-#     </ul>
-#     --%>
 
-# <Dropdown.dropdown relative="relative" clickable>
-# <Dropdown.dropdown_trigger trigger_id="unique_id">
-#   <Avatar.avatar color="primary">SB</Avatar.avatar>
-# </Dropdown.dropdown_trigger>
+# NOTE: start up a new task in the same process
+# Task.start(fn -> send_metrics_to_service(data) end)
 
-# <Dropdown.dropdown_content id="unique_id" space="small" rounded="large" width="w-96" padding="extra_small"
-#   class="w-36 bg-red-600 mt-2">
-#   <ul :for={link <- @links}>
-#     <.link navigate={~p"/#{link.url}"} class="flex gap-2 items-center group">
-#       <.iconify icon={link.icon} class="group-hover:text-brand" />
-#       <li class="group-hover:text-brand">{link.title}</li>
-#     </.link>
-#   </ul>
-# </Dropdown.dropdown_content>
-# </Dropdown.dropdown>
+# NOTE: action functions
+# Use handle_event/3 for interactive events triggered by the user.
+# Use handle_params/3 for responding to changes in the URL or query string.
+# Use handle_info/2 for handling asynchronous updates or background processes.
+# Use mount/3 for initializing the LiveView state.
+
+# DONE: connected lifecycle -> updating data by passing action to handle_info
+# def mount(_params, _session, socket) do
+#   if connected?(socket) do
+#     send(self(), :load_data)
+#   end
+#   {:ok, assign(socket, data: nil)}
+#     {:ok, assign(socket, data: nil, loading: true)}
+# end
+# def handle_info(:load_data, socket) do
+#   data = fetch_data_somehow()
+#   {:noreply, assign(socket, data: data)}
+# end
+# DONE:  work with connected and return data whe its true (if..else, case)
+# def mount(_params, _session, socket) do
+#   socket =
+#     if connected?(socket) do
+#       data = Post.get_posts() # Fetch posts only if connected
+#       assign(socket, :data, data)
+#     else
+#       assign(socket, :data, nil) # Assign nil initially
+#     end
+#   {:ok, socket}
+# end
+# def mount(_params, _session, socket) do
+#   socket =
+#     case connected?(socket) do
+#       true ->
+#         data = Post.get_posts() # Fetch posts only if connected
+#         assign(socket, :data, data)
+#       false ->
+#         assign(socket, :data, nil) # Assign nil initially
+#     end
+
+#   {:ok, socket}
+# end
+# PENDING: using connected? data
+# <%= if @data do %>
+#   <p><%= @data.some_value %></p>
+# <% else %>
+#   <p>Loading...</p>
+# <% end %>
+
+# also this ->
+#   {:ok, assign(socket, data: %{})}
+#   <p><%= @data.some_value || "Default Value" %></p>
+
+#   <%= case @data do %>
+#   <% nil -> %>
+#     <p>Loading data...</p>
+#   <% data -> %>
+#     <p>Data: <%= data.some_value %></p>
+# <% end %>
+
+# <div id="data-container">
+#   <%= if @data do %>
+#     <p>Data: <%= @data.some_value %></p>
+#   <% else %>
+#     <p>Loading...</p>
+#   <% end %>
+# </div>

@@ -21,7 +21,6 @@ defmodule Trivia.UserProfile.Profile do
     timestamps(type: :utc_datetime)
   end
 
-  @doc false
   def changeset(profile, attrs \\ %{}) do
     profile
     |> cast(attrs, [

@@ -8,7 +8,8 @@ config :trivia, Trivia.Repo,
   database: "trivia_dev",
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,
-  pool_size: 10
+  pool_size: 10,
+  log: false
 
 # For development, we disable any cache and enable
 # debugging and code reloading.
@@ -66,7 +67,11 @@ config :trivia, TriviaWeb.Endpoint,
 config :trivia, dev_routes: true
 
 # Do not include metadata nor timestamps in development logs
-config :logger, :console, format: "[$level] $message\n"
+config :logger, :console, level: :error
+# config :logger, :console, format: "[$level] $message\n"
+
+# config :phoenix, :live_view,
+#   debug: false
 
 # Set a higher stacktrace during development. Avoid configuring such
 # in production as building large stacktraces may be expensive.

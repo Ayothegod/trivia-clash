@@ -1,7 +1,6 @@
 defmodule TriviaWeb.DefaultLive.Index do
   use TriviaWeb, :live_view
   require Logger
-
   alias TriviaWeb.SharedData
 
   @impl true
