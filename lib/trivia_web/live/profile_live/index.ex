@@ -27,7 +27,7 @@ defmodule TriviaWeb.ProfileLive.Index do
 
     socket =
       socket
-      |> assign(:page_title, "Home Page")
+      |> assign(:page_title, "Profile Page")
       |> assign(:links, links)
 
     user_profile = UserProfile.list_user_profile()

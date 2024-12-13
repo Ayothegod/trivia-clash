@@ -19,7 +19,7 @@ defmodule TriviaWeb.OnboardController do
       conn
       # |> put_session(:user_profile, profile)
       |> put_flash(:error, "Unable to update profile, try again later.")
-      |> redirect(to: ~p"/user_profile")
+      |> redirect(to: ~p"/profile")
     end
   end
 end
