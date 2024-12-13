@@ -32,52 +32,35 @@
   <p>{@user.email}</p>
   <% end %>
 
-    <.table id="user_profile" rows={@streams.user_profile} row_click={fn {_id, profile} ->
-      JS.navigate(~p"/user_profile/#{profile}") end}
-      >
-      <:col :let={{_id, profile}} label="Arenas joined">{profile.arenas_joined}</:col>
-      <:col :let={{_id, profile}} label="Games played">{profile.games_played}</:col>
-      <:col :let={{_id, profile}} label="Followers">{profile.followers}</:col>
-      <:col :let={{_id, profile}} label="Followings">{profile.followings}</:col>
-      <:col :let={{_id, profile}} label="Past achievements">{profile.past_achievements}</:col>
-      <:col :let={{_id, profile}} label="Past summaries">{profile.past_summaries}</:col>
-      <:col :let={{_id, profile}} label="Summary is public">{profile.summary_is_public}</:col>
-      <:col :let={{_id, profile}} label="Bio">{profile.bio}</:col>
+    <img src="https://ui-avatars.com/api/?name=<%= URI.encode(@user.email || " Default User") %>" alt="Profile
+    Picture" />
 
-      <:action :let={{_id, profile}}>
-        <div class="sr-only">
-          <.link navigate={~p"/user_profile/#{profile.id}"}>Show</.link>
-        </div>
-        <.link patch={~p"/user_profile/#{profile}/edit"}>Edit</.link>
-      </:action>
-      <:action :let={{id, profile}}>
-        <.link phx-click={JS.push("delete", value: %{id: profile.id}) |> hide("##{id}")}
-          data-confirm="Are you sure?"
-          >
-          Delete
-        </.link>
-      </:action>
-      </%.table>
+    <:action :let={{id, profile}}>
+      <.link phx-click={JS.push("delete", value: %{id: profile.id}) |> hide("##{id}")}
+        data-confirm="Are you sure?"
+        >
+        Delete
+      </.link>
+    </:action>
 
+    <%= if @live_action==:new do %>
+      <h1>Create a New Profile</h1>
+      <% elsif @live_action==:edit do %>
+        <h1>Edit Profile</h1>
+        <% else %>
+          <h1>View Profile</h1>
+          <% end %>
 
-      <%= if @live_action==:new do %>
-        <h1>Create a New Profile</h1>
-        <% elsif @live_action==:edit do %>
-          <h1>Edit Profile</h1>
-          <% else %>
-            <h1>View Profile</h1>
-            <% end %>
+            <%= if @live_action in [:edit, :new] do %>
+              <button phx-click="save">Save</button>
+              <% else %>
+                <button phx-click="delete">Delete</button>
+                <% end %>
 
-              <%= if @live_action in [:edit, :new] do %>
-                <button phx-click="save">Save</button>
-                <% else %>
-                  <button phx-click="delete">Delete</button>
-                  <% end %>
+                  <:actions>
+                    <.link patch={~p"/user_profile/new"}>
+                      <.button>New Profile</.button>
+                    </.link>
+                  </:actions>
 
-                    <:actions>
-                      <.link patch={~p"/user_profile/new"}>
-                        <.button>New Profile</.button>
-                      </.link>
-                    </:actions>
-
-                    --%>
+                  --%>

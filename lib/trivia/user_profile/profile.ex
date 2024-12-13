@@ -12,6 +12,9 @@ defmodule Trivia.UserProfile.Profile do
     field :past_summaries, {:array, :map}, default: []
     field :summary_is_public, :boolean, default: true
     field :bio, :string, default: ""
+    field :profile_picture, :string, default: ""
+    field :fullname, :string, default: ""
+    field :level, :integer, default: 0
 
     belongs_to :user, Trivia.Accounts.User
 
@@ -30,7 +33,10 @@ defmodule Trivia.UserProfile.Profile do
       :past_achievements,
       :past_summaries,
       :summary_is_public,
-      :bio
+      :bio,
+      :fullname,
+      :profile_picture,
+      :level
     ])
   end
 end
