@@ -6,28 +6,49 @@
     </Breadcrumb.breadcrumb>
   </.header>
 
-  <main class="mt-2">
+  <main class="my-2">
     <div class="flex flex-col gap-2">
       <div class="w-full h-36 border bg-neutral-300 rounded-md overflow-hidden"></div>
 
-      <div class="flex items-center gap-2 mt-2">
+      <div class="flex items-center gap-8 mt-2">
         <div class="w-28 h-28 border bg-neutral-300 rounded-full overflow-hidden">
           <img src={~p"/images/default.png"} class="w-full h-full" />
         </div>
 
-        <div>
-          <p>User data: { @user.email}</p>
+        <div class="flex items-center gap-4">
+          <div class="flex flex-col g">
+            <%= if @user.user_profile do %>
+              <p class="text-semibold">{ @user.user_profile.fullname}</p>
+              <p class="text-sm text-neutral-600">User data: { @user.email}</p>
+              <% end %>
+          </div>
 
-          <%= if @user.user_profile do %>
-            <p>Fullname: { @user.user_profile.fullname}</p>
-            <p>Level: { @user.user_profile.level}</p>
-            <% end %>
-
+          <p>Player Level: { @user.user_profile.level}</p>
         </div>
-        <.link patch={~p"/user_profile/new"}>
-          <.button>New Profile</.button>
-        </.link>
+
+        <%= if @current_user do %>
+          <li class="text-[0.8125rem] leading-6 text-zinc-900">
+            <%= @current_user.email %>
+          </li>
+          <% end %>
+
+            <div class="ml-auto">
+              <.link patch={~p"/user_profile/new"} class="">
+                <.button>Follow</.button>
+                <.button>Unfollow</.button>
+              </.link>
+
+              <.link patch={~p"/user_profile/new"} class="">
+                <.button>New Profile</.button>
+              </.link>
+            </div>
       </div>
+    </div>
+
+    <div class="mt-2 debug">
+      User details here! + bio later
+      another tab for summaries
+      another for ...
     </div>
 
 
