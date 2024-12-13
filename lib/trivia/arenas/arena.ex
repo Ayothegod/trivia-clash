@@ -2,15 +2,17 @@ defmodule Trivia.Arenas.Arena do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @primary_key {:id, :binary_id, autogenerate: true}
+  # @foreign_key_type :binary_id
+
   schema "arenas" do
     field :public, :boolean, default: false
     field :is_player, :boolean, default: false
     field :players, {:array, :string}, default: []
-    field :arena_theme, :map, default: %{}
     field :no_of_players, :integer, default: 2
     field :observer_capacity, :integer, default: 6
 
-    # has_one :user_profile, Trivia.UserProfile.Profile
+    has_one :arena_theme, Trivia.ArenaThemeContext.ArenaTheme
 
     timestamps(type: :utc_datetime)
   end

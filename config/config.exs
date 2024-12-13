@@ -11,6 +11,10 @@ config :trivia,
   ecto_repos: [Trivia.Repo],
   generators: [timestamp_type: :utc_datetime]
 
+config :trivia, Trivia.Repo,
+  migration_primary_key: [type: :binary_id],
+  migration_foreign_key: [type: :binary_id]
+
 config :iconify_ex, :mode, :css
 config :iconify_ex, :env, config_env()
 config :iconify_ex, :fallback_icon, "heroicons-solid:question-mark-circle"
