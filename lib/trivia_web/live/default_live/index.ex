@@ -5,41 +5,29 @@ defmodule TriviaWeb.DefaultLive.Index do
   alias TriviaWeb.SharedData
 
   @impl true
-  def mount(_params, session, socket) do
+  def mount(_params, _session, socket) do
     links = SharedData.links()
-    profile = TriviaWeb.SharedData.profile(socket, session)
-    IO.inspect(profile, label: "default profile")
-    IO.inspect(links, label: "default links")
+
+    socket =
+      case SharedData.profile(socket) do
+        {:ok, %{user: userData}} ->
+          IO.inspect(userData.email, label: "User Email")
+          assign(socket, :user, userData)
+
+        {:error, :not_found} ->
+          Logger.error("User not found!")
+          redirect(socket, to: "/users/logout_redirect")
+
+        {:error, :unauthenticated} ->
+          Logger.error("User is unauthenticated!")
+          redirect(socket, to: "/users/log_in")
+      end
 
     socket =
       socket
-      |> assign(:profile, profile)
       |> assign(:page_title, "Home Page")
+      |> assign(:links, links)
 
     {:ok, socket}
   end
-
-  # def render(assigns) do
-  #   Logger.debug("Received data: #{inspect(assigns)}")
-  # end
 end
-
-# <% if @is_admin %>
-# <div class="flex gap-2 items-center">
-#   <.link href={~p"/users/log_out"} method="delete">
-#     <Button.button size="medium">
-#       Log out
-#     </Button.button>
-#   </.link>
-
-#   <p>Welcome to your account</p>
-# </div>
-# <% else %>
-#   <div class="flex gap-2 items-center">
-#     <.link href={~p"/users/log_out"} method="delete">
-#       <Button.button size="medium">
-#         Log In
-#       </Button.button>
-#     </.link>
-#   </div>
-#   <% end %>

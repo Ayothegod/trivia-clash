@@ -41,4 +41,10 @@ defmodule TriviaWeb.UserSessionController do
     |> put_flash(:info, "Logged out successfully.")
     |> UserAuth.log_out_user()
   end
+
+  def logout_redirect(conn, _params) do
+    conn
+    |> put_flash(:info, "Please sign in again.")
+    |> TriviaWeb.UserAuth.log_out_user()
+  end
 end

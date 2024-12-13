@@ -4,36 +4,36 @@ defmodule TriviaWeb.DefaultLive.Onboard do
 
   alias Trivia.UserProfile.Profile
   alias Trivia.UserProfile
-  alias Trivia.Accounts.User
+  # alias Trivia.Accounts.User
 
   alias TriviaWeb.SharedData
 
   @impl true
-  def mount(_params, session, socket) do
+  def mount(_params, _session, socket) do
     changeset = Profile.changeset(%Profile{})
+    links = SharedData.links()
 
-    # links = SharedData.links()
-    profile = TriviaWeb.SharedData.profile(socket, session)
-    # IO.inspect(profile)
-    # IO.inspect(links, label: "shared links")
+    socket =
+      case SharedData.profile(socket) do
+        {:ok, %{user: userData}} ->
+          IO.inspect(userData.email, label: "User Email")
+          assign(socket, :user, userData)
 
-    case profile do
-      {:ok, %{"email" => email}} ->
-        IO.inspect(email, label: "user data")
-        {:noreply, socket}
+        {:error, :not_found} ->
+          Logger.error("User not found!")
+          redirect(socket, to: "/users/logout_redirect")
 
-      {:error, _} ->
-        Logger.error("This is an error!")
-        {:noreply, socket}
-    end
+        {:error, :unauthenticated} ->
+          Logger.error("User is unauthenticated!")
+          redirect(socket, to: "/users/log_in")
+      end
 
     socket =
       socket
       |> assign(trigger_submit: false, check_errors: false)
       |> assign_form(changeset)
       |> assign(:page_title, "Onboard Page")
-
-    # |> assign(:profile, profile)
+      |> assign(:links, links)
 
     {:ok, socket, temporary_assigns: [form: nil]}
   end

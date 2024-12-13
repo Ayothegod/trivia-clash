@@ -4,19 +4,40 @@ defmodule TriviaWeb.SharedData do
 
   def links() do
     [
-      %{id: 1, title: "Profile", url: "onboarding", icon: "heroicons:rectangle-stack-16-solid"},
-      %{id: 2, title: "Settings", url: "onboarding", icon: "heroicons:rectangle-stack-16-solid"},
-      %{id: 3, title: "Log out", url: "onboarding", icon: "heroicons:rectangle-stack-16-solid"}
+      %{id: 1, title: "Home", url: "/", icon: "heroicons:rectangle-stack-16-solid"},
+      %{id: 2, title: "Profile", url: "/profile", icon: "heroicons:rectangle-stack-16-solid"},
+      %{id: 3, title: "Settings", url: "/onboarding", icon: "heroicons:rectangle-stack-16-solid"},
+      %{id: 4, title: "Log out", url: "/onboarding", icon: "heroicons:rectangle-stack-16-solid"},
+      %{
+        id: 5,
+        title: "Onboarding",
+        url: "/onboarding",
+        icon: "heroicons:rectangle-stack-16-solid"
+      }
     ]
   end
 
-  def profile(socket, _session) do
-    id = socket.assigns.current_user.id
-    profile = Accounts.get_user!(id)
+  def profile(socket) do
+    case socket.assigns do
+      %{current_user: %{id: id}} ->
+        case Accounts.get_user!(id) do
+          nil ->
+            {:error, :not_found}
 
-    {:ok, profile}
+          user ->
+            {:ok, user}
+        end
+
+      _ ->
+        {:error, :unauthenticated}
+    end
   end
 end
 
-# id = conn.assigns.current_user.id
-# profile = Accounts.get_user!(id)
+# if user.user.user_profile == nil do
+#   IO.inspect("no profile")
+#   {:error, :not_found}
+# else
+#   IO.inspect(user.user.user_profile)
+#   {:ok, user}
+# end

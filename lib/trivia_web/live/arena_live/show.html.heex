@@ -12,20 +12,17 @@
   <:item title="Is player">{@arena.is_player}</:item>
   <:item title="Players">{@arena.players}</:item>
   <:item title="Public">{@arena.public}</:item>
-  <:item title="Arena theme">{@arena.arena_theme}</:item>
   <:item title="No of players">{@arena.no_of_players}</:item>
   <:item title="Observer capacity">{@arena.observer_capacity}</:item>
 </.list>
 
 <.back navigate={~p"/arenas"}>Back to arenas</.back>
 
-<.modal :if={@live_action == :edit} id="arena-modal" show on_cancel={JS.patch(~p"/arenas/#{@arena}")}>
-  <.live_component
-    module={TriviaWeb.ArenaLive.FormComponent}
-    id={@arena.id}
-    title={@page_title}
-    action={@live_action}
-    arena={@arena}
-    patch={~p"/arenas/#{@arena}"}
-  />
+<.modal :if={@live_action==:edit} id="arena-modal" show on_cancel={JS.patch(~p"/arenas/#{@arena}")}>
+  <.live_component module={TriviaWeb.ArenaLive.FormComponent} id={@arena.id} title={@page_title} action={@live_action}
+    arena={@arena} patch={~p"/arenas/#{@arena}"} />
 </.modal>
+
+
+<%!-- <:item title="Arena theme">{@arena.arena_theme}</:item>
+  --%>

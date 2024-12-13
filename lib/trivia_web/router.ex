@@ -61,13 +61,14 @@ defmodule TriviaWeb.Router do
       live "/", DefaultLive.Index, :index
       live "/onboarding", DefaultLive.Onboard, :index
 
+      # NOTE: arenas
       live "/arenas", ArenaLive.Index, :index
       live "/arenas/new", ArenaLive.Index, :new
       live "/arenas/:id/edit", ArenaLive.Index, :edit
-
       live "/arenas/:id", ArenaLive.Show, :show
       live "/arenas/:id/show/edit", ArenaLive.Show, :edit
 
+      # TODO: profile
       live "/user_profile", ProfileLive.Index, :index
       live "/user_profile/new", ProfileLive.Index, :new
       live "/user_profile/:id/edit", ProfileLive.Index, :edit
@@ -83,6 +84,7 @@ defmodule TriviaWeb.Router do
     pipe_through [:browser]
 
     delete "/users/log_out", UserSessionController, :delete
+    get "/users/logout_redirect", UserSessionController, :logout_redirect
 
     live_session :current_user,
       on_mount: [{TriviaWeb.UserAuth, :mount_current_user}] do
@@ -115,3 +117,29 @@ end
 # <a href={Routes.user_show_path(@socket, :show, user_id: @user.id)}>View Profile</a>
 
 # <.my_component name={@user_name} />
+
+# <%!-- <.link navigate={~p"/onboarding"}>Onboard</.link>
+#   <.link navigate={Routes.user_path(@socket, :index, id: link.url)} class="flex gap-2 items-center group">
+#     <.iconify icon="heroicons:rectangle-stack-16-solid" class="w-8 h-8 text-base-content cursor-pointer text-brand" />
+#     <.iconify icon={@icon} />
+#     <ul>
+#       <li>Email: <%= @profile.user.email %>
+#       </li>
+#     </ul>
+#     --%>
+
+# <Dropdown.dropdown relative="relative" clickable>
+# <Dropdown.dropdown_trigger trigger_id="unique_id">
+#   <Avatar.avatar color="primary">SB</Avatar.avatar>
+# </Dropdown.dropdown_trigger>
+
+# <Dropdown.dropdown_content id="unique_id" space="small" rounded="large" width="w-96" padding="extra_small"
+#   class="w-36 bg-red-600 mt-2">
+#   <ul :for={link <- @links}>
+#     <.link navigate={~p"/#{link.url}"} class="flex gap-2 items-center group">
+#       <.iconify icon={link.icon} class="group-hover:text-brand" />
+#       <li class="group-hover:text-brand">{link.title}</li>
+#     </.link>
+#   </ul>
+# </Dropdown.dropdown_content>
+# </Dropdown.dropdown>
