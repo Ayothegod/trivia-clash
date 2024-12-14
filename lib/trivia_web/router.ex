@@ -202,3 +202,9 @@ end
 #     <p>Loading...</p>
 #   <% end %>
 # </div>
+
+# <.link href={~p"/users/log_out"} method="delete">
+# <Button.button size="small">
+#   Log out
+# </Button.button>
+# </.link>

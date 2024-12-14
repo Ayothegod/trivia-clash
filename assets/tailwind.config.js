@@ -16,9 +16,12 @@ module.exports = {
       colors: {
         brand: "#6848F8", //FD4F00
       },
-      height:{
-        hero:"calc(100vh - (56px))"
-      }
+      height: {
+        hero: "calc(100vh - (56px))",
+      },
+      fontFamily: {
+        inter: ["Inter", "sans-serif"],
+      },
     },
   },
   plugins: [

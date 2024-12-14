@@ -3,8 +3,7 @@ defmodule Trivia.Arenas.Arena do
   import Ecto.Changeset
 
   @primary_key {:id, :binary_id, autogenerate: true}
-  # @foreign_key_type :binary_id
-
+  @foreign_key_type :binary_id
   schema "arenas" do
     field :public, :boolean, default: false
     field :is_player, :boolean, default: false

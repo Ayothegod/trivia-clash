@@ -4,15 +4,33 @@ defmodule TriviaWeb.SharedData do
 
   def links() do
     [
-      %{id: 1, title: "Home", url: "/", icon: "heroicons:rectangle-stack-16-solid"},
-      %{id: 2, title: "Profile", url: "/profile", icon: "heroicons:rectangle-stack-16-solid"},
-      %{id: 3, title: "Settings", url: "/onboarding", icon: "heroicons:rectangle-stack-16-solid"},
-      %{id: 4, title: "Log out", url: "/onboarding", icon: "heroicons:rectangle-stack-16-solid"},
       %{
-        id: 5,
-        title: "Onboarding",
+        id: 1,
+        title: "Home",
+        url: "/",
+        icon: "heroicons:rectangle-stack-16-solid",
+        isLogout: false
+      },
+      %{
+        id: 2,
+        title: "Profile",
+        url: "/profile",
+        icon: "heroicons:rectangle-stack-16-solid",
+        isLogout: false
+      },
+      %{
+        id: 3,
+        title: "Settings",
         url: "/onboarding",
-        icon: "heroicons:rectangle-stack-16-solid"
+        icon: "heroicons:rectangle-stack-16-solid",
+        isLogout: false
+      },
+      %{
+        id: 4,
+        title: "Log out",
+        url: "/onboarding",
+        icon: "heroicons:rectangle-stack-16-solid",
+        isLogout: true
       }
     ]
   end

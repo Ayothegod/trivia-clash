@@ -1,15 +1,12 @@
-<header class="body h-14 border-b flex items-center justify-between">
+<header class="body h-14 font-inter flex items-center justify-between">
   <Logo.logo />
 
   <%= if @user do %>
-    <div class="flex gap-1 items-center">
-      <.link href={~p"/users/log_out"} method="delete">
-        <Button.button size="medium">
-          Log out
-        </Button.button>
-      </.link>
-
-      <Avatar.avatar color="primary">SB</Avatar.avatar>
+    <div class="flex gap-8 items-center">
+      <div class="flex items-center gap-2">
+        <Button.button size="small">Join an Arena</Button.button>
+        <Button.button size="small">Create new Arena</Button.button>
+      </div>
 
       <Dropdown.dropdown relative="relative">
         <Dropdown.dropdown_trigger>
@@ -19,12 +16,26 @@
         </Dropdown.dropdown_trigger>
 
         <Dropdown.dropdown_content space="small" rounded="large" width="full" padding="extra_small" class="mt-2">
-          <ul :for={link <- @links}>
-            <.link navigate={link.url} class="flex gap-2 items-center group">
-              <.iconify icon={link.icon} class="group-hover:text-brand" />
-              <li class="group-hover:text-brand">{link.title}</li>
-            </.link>
+          <ul>
+            <%= for link <- @links do %>
+              <%= if link.isLogout do %>
+                <li>
+                  <.link href={~p"/users/log_out"} method="delete" class="flex gap-2 items-center group">
+                    <.iconify icon={link.icon} class="group-hover:text-brand" />
+                    <span class="group-hover:text-brand">Error Mhen</span>
+                  </.link>
+                </li>
+                <% else %>
+                  <li>
+                    <.link navigate={link.url} class="flex gap-2 items-center group">
+                      <.iconify icon={link.icon} class="group-hover:text-brand" />
+                      <span class="group-hover:text-brand">{link.title}</span>
+                    </.link>
+                  </li>
+                  <% end %>
+                    <% end %>
           </ul>
+
         </Dropdown.dropdown_content>
       </Dropdown.dropdown>
     </div>
@@ -40,7 +51,7 @@
 
 </header>
 
-<main class="body min-h-hero">
+<main class="body font-inter">
   <.flash_group flash={@flash} />
   <%= @inner_content %>
 </main>
