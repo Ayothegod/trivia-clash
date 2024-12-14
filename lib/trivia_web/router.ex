@@ -64,15 +64,8 @@ defmodule TriviaWeb.Router do
       live "/onboarding", DefaultLive.Onboard, :index
 
       live "/", DefaultLive.Index, :index
-      live "/arenas/new", DefaultLive.Index, :new
+      live "/create/new", DefaultLive.Index, :new
       live "/arenas/:id", ArenaLive.ArenaLobby, :index
-
-      # NOTE: arenas
-      # live "/arenas", ArenaLive.Index, :index
-      # live "/arenas/new", ArenaLive.Index, :new
-      # live "/arenas/:id", ArenaLive.Show, :show
-      # live "/arenas/:id/edit", ArenaLive.Index, :edit
-      # live "/arenas/:id/show/edit", ArenaLive.Show, :edit
 
       # TODO: profile
       live "/profile", ProfileLive.Index, :index
@@ -205,9 +198,3 @@ end
 #     <p>Loading...</p>
 #   <% end %>
 # </div>
-
-# <.link href={~p"/users/log_out"} method="delete">
-# <Button.button size="small">
-#   Log out
-# </Button.button>
-# </.link>

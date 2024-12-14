@@ -17,11 +17,9 @@ defmodule TriviaWeb.ArenaLive.ArenaLobby do
           assign(socket, :user, userData)
 
         {:error, :not_found} ->
-          # Logger.error("User not found!")
           redirect(socket, to: "/users/logout_redirect")
 
         {:error, :unauthenticated} ->
-          # Logger.error("User is unauthenticated!")
           redirect(socket, to: "/users/log_in")
       end
 

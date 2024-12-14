@@ -33,7 +33,6 @@ defmodule TriviaWeb.DefaultLive.Index do
       |> assign(:links, links)
       |> assign(:arenas, arenas)
 
-    # {:ok, stream(socket, :arenas, arenas)}
     {:ok, socket}
   end
 
@@ -69,8 +68,6 @@ defmodule TriviaWeb.DefaultLive.Index do
     # {:noreply, stream_insert(socket, :arenas, arena)}
     IO.inspect("got here")
     updated_arenas = [arena | socket.assigns.arenas]
-    # assign(socket, :arenas, updated_arenas)
-    # {:noreply, push_navigate(socket, to: "/arenas/#{arena.id}")}
     {:noreply, assign(socket, :arenas, updated_arenas)}
   end
 
@@ -78,7 +75,6 @@ defmodule TriviaWeb.DefaultLive.Index do
   def handle_event("delete", %{"id" => id}, socket) do
     arena = Arenas.get_arena!(id)
     {:ok, _} = Arenas.delete_arena(arena)
-
     {:noreply, stream_delete(socket, :arenas, arena)}
   end
 end
