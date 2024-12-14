@@ -62,10 +62,13 @@ defmodule TriviaWeb.ArenaLive.FormComponent do
       {:ok, arena} ->
         notify_parent({:saved, arena})
 
-        {:noreply,
-         socket
-         |> put_flash(:info, "Arena updated successfully")
-         |> push_patch(to: socket.assigns.patch)}
+        {
+          :noreply,
+          socket
+          |> put_flash(:info, "Arena updated successfully")
+          #  |> push_patch(to: socket.assigns.patch)
+          # |> push_navigate(to: "/arenas/#{arena.id}", replace: true)
+        }
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, form: to_form(changeset))}
@@ -88,13 +91,14 @@ defmodule TriviaWeb.ArenaLive.FormComponent do
         notify_parent({:saved, arena})
         IO.inspect(arena, label: "New arena")
 
-        {:noreply,
-         socket
-         |> put_flash(:info, "Arena created successfully")
-         |> push_patch(to: socket.assigns.patch)}
+        {
+          :noreply,
+          socket
+          |> put_flash(:info, "Arena created successfully")
+          |> push_navigate(to: "/arenas/#{arena.id}", replace: true)
+        }
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        # IO.inspect(changeset)
         {:noreply, assign(socket, form: to_form(changeset))}
     end
   end

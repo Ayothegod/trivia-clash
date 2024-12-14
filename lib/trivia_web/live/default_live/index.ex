@@ -10,7 +10,6 @@ defmodule TriviaWeb.DefaultLive.Index do
   @impl true
   def mount(_params, _session, socket) do
     links = SharedData.links()
-    # IO.inspect(socket.assigns.current_user, label: "Current User")
 
     socket =
       case SharedData.profile(socket) do
@@ -27,7 +26,6 @@ defmodule TriviaWeb.DefaultLive.Index do
       end
 
     arenas = Arenas.list_arenas()
-    # IO.inspect(arenas, label: "List of arenas")
 
     socket =
       socket
@@ -69,7 +67,10 @@ defmodule TriviaWeb.DefaultLive.Index do
   @impl true
   def handle_info({TriviaWeb.ArenaLive.FormComponent, {:saved, arena}}, socket) do
     # {:noreply, stream_insert(socket, :arenas, arena)}
+    IO.inspect("got here")
     updated_arenas = [arena | socket.assigns.arenas]
+    # assign(socket, :arenas, updated_arenas)
+    # {:noreply, push_navigate(socket, to: "/arenas/#{arena.id}")}
     {:noreply, assign(socket, :arenas, updated_arenas)}
   end
 
@@ -81,37 +82,3 @@ defmodule TriviaWeb.DefaultLive.Index do
     {:noreply, stream_delete(socket, :arenas, arena)}
   end
 end
-
-# <div class="">
-# <%= if @empty_data do %>
-#   <div class="flex items-center justify-center mt-20">
-#     <p>No arena to display right now!!</p>
-#   </div>
-#   <% else %>
-#     <div class="flex flex-col gap-4">
-#       <%= for {id, arena} <- @streams.arenas do %>
-#         <div id={"arena-#{id}"} class="arena-item">
-#           <p>ID: <%= id %>
-#           </p>
-#           <p>Players: <%= arena.no_of_players %>
-#           </p>
-#         </div>
-#         <% end %>
-#     </div>
-#     <% end %>
-# </div>
-
-# def handle_info({TriviaWeb.ArenaLive.FormComponent, {:deleted, arena}}, socket) do
-#   updated_arenas = List.delete(socket.assigns.arenas, arena)  # Remove the deleted arena
-#   {:noreply, assign(socket, :arenas, updated_arenas)}
-# end
-
-# def handle_info({TriviaWeb.ArenaLive.FormComponent, {:updated, updated_arena}}, socket) do
-#   updated_arenas =
-#     Enum.map(socket.assigns.arenas, fn
-#       arena when arena.id == updated_arena.id -> updated_arena  # Replace the arena with the updated one
-#       arena -> arena  # Leave other arenas unchanged
-#     end)
-
-#   {:noreply, assign(socket, :arenas, updated_arenas)}
-# end

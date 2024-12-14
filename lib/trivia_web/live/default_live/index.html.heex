@@ -59,7 +59,7 @@
 
   <.modal :if={@live_action in [:new, :edit]} id="arena-modal" show on_cancel={JS.patch(~p"/")}>
     <.live_component module={TriviaWeb.ArenaLive.FormComponent} id={@arena.id || :new} title={@page_title}
-      arena_theme={@arena_themes} action={@live_action} arena={@arena} patch={~p"/"} currentUser={@currentUser} />
+      arena_theme={@arena_themes} action={@live_action} arena={@arena} currentUser={@currentUser} />
   </.modal>
 </div>
 

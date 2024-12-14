@@ -2,10 +2,33 @@ defmodule TriviaWeb.ArenaLive.ArenaLobby do
   use TriviaWeb, :live_view
 
   alias Trivia.Arenas
+  alias TriviaWeb.SharedData
+
+  # alias Trivia.Arenas.Arena
+  # alias Trivia.ArenaThemeContext
 
   @impl true
   def mount(_params, _session, socket) do
-    IO.inspect("this is an arena")
+    links = SharedData.links()
+
+    socket =
+      case SharedData.profile(socket) do
+        {:ok, %{user: userData}} ->
+          assign(socket, :user, userData)
+
+        {:error, :not_found} ->
+          # Logger.error("User not found!")
+          redirect(socket, to: "/users/logout_redirect")
+
+        {:error, :unauthenticated} ->
+          # Logger.error("User is unauthenticated!")
+          redirect(socket, to: "/users/log_in")
+      end
+
+    socket =
+      socket
+      |> assign(:links, links)
+
     {:ok, socket}
   end
 
@@ -17,6 +40,6 @@ defmodule TriviaWeb.ArenaLive.ArenaLobby do
      |> assign(:arena, Arenas.get_arena!(id))}
   end
 
-  defp page_title(:index), do: "Arena Lobby"
+  defp page_title(:index), do: "Ayo's Lobby"
   defp page_title(:edit), do: "Edit Arena"
 end
