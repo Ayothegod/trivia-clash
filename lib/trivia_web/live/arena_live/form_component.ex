@@ -9,7 +9,7 @@ defmodule TriviaWeb.ArenaLive.FormComponent do
     <div>
       <.header>
         {@title}
-        <:subtitle>Use this form to manage arena records in your database.</:subtitle>
+        <:subtitle></:subtitle>
       </.header>
 
       <.simple_form
@@ -100,14 +100,4 @@ defmodule TriviaWeb.ArenaLive.FormComponent do
   end
 
   defp notify_parent(msg), do: send(self(), {__MODULE__, msg})
-
-  # defp player_structure(users, user_id_to_match) do
-  #   Enum.map(users, fn user ->
-  #     # %{
-  #     #   "id" => user,
-  #     #   "is_player" => user == "player#{user_id_to_match}"
-  #     # }
-  #     IO.inspect(user)
-  #   end)
-  # end
 end

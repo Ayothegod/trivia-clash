@@ -61,15 +61,18 @@ defmodule TriviaWeb.Router do
       live "/users/settings", UserSettingsLive, :edit
       live "/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email
 
-      live "/", DefaultLive.Index, :index
       live "/onboarding", DefaultLive.Onboard, :index
 
+      live "/", DefaultLive.Index, :index
+      live "/arenas/new", DefaultLive.Index, :new
+      live "/arenas/:id", ArenaLive.ArenaLobby, :index
+
       # NOTE: arenas
-      live "/arenas", ArenaLive.Index, :index
-      live "/arenas/new", ArenaLive.Index, :new
-      live "/arenas/:id/edit", ArenaLive.Index, :edit
-      live "/arenas/:id", ArenaLive.Show, :show
-      live "/arenas/:id/show/edit", ArenaLive.Show, :edit
+      # live "/arenas", ArenaLive.Index, :index
+      # live "/arenas/new", ArenaLive.Index, :new
+      # live "/arenas/:id", ArenaLive.Show, :show
+      # live "/arenas/:id/edit", ArenaLive.Index, :edit
+      # live "/arenas/:id/show/edit", ArenaLive.Show, :edit
 
       # TODO: profile
       live "/profile", ProfileLive.Index, :index

@@ -6,6 +6,14 @@
       <div class="flex items-center gap-2">
         <Button.button size="small">Join an Arena</Button.button>
         <Button.button size="small">Create new Arena</Button.button>
+
+        <.header>
+          <:actions>
+            <.link patch={~p"/arenas/new"}>
+              <.button>Create an Arena</.button>
+            </.link>
+          </:actions>
+        </.header>
       </div>
 
       <Dropdown.dropdown relative="relative">

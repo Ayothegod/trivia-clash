@@ -64,9 +64,6 @@ defmodule TriviaWeb.ArenaLive.Index do
 
   @impl true
   def handle_info({TriviaWeb.ArenaLive.FormComponent, {:saved, arena}}, socket) do
-    socket
-    |> put_flash(:info, "This is a saved arena, yaah")
-
     {:noreply, stream_insert(socket, :arenas, arena)}
   end
 
