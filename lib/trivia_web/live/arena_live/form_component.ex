@@ -73,23 +73,41 @@ defmodule TriviaWeb.ArenaLive.FormComponent do
   end
 
   defp save_arena(socket, :new, arena_params) do
-    # IO.inspect(socket.assigns.currentUser.id)
+    user = socket.assigns.currentUser
 
-    params = Map.put(arena_params, "user_id", "user_id")
-    # case Arenas.create_arena(arena_params) do
-    #   {:ok, arena} ->
-    #     notify_parent({:saved, arena})
+    player_structure = %{
+      id: user.id,
+      is_player: true
+    }
 
-    #     {:noreply,
-    #      socket
-    #      |> put_flash(:info, "Arena created successfully")
-    #      |> push_patch(to: socket.assigns.patch)}
-
-    #   {:error, %Ecto.Changeset{} = changeset} ->
-    #     {:noreply, assign(socket, form: to_form(changeset))}
-    # end
+    params = Map.put(arena_params, "players", [player_structure])
     IO.inspect(params)
+
+    case Arenas.create_arena(params) do
+      {:ok, arena} ->
+        notify_parent({:saved, arena})
+        IO.inspect(arena, label: "New arena")
+
+        {:noreply,
+         socket
+         |> put_flash(:info, "Arena created successfully")
+         |> push_patch(to: socket.assigns.patch)}
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        # IO.inspect(changeset)
+        {:noreply, assign(socket, form: to_form(changeset))}
+    end
   end
 
   defp notify_parent(msg), do: send(self(), {__MODULE__, msg})
+
+  # defp player_structure(users, user_id_to_match) do
+  #   Enum.map(users, fn user ->
+  #     # %{
+  #     #   "id" => user,
+  #     #   "is_player" => user == "player#{user_id_to_match}"
+  #     # }
+  #     IO.inspect(user)
+  #   end)
+  # end
 end

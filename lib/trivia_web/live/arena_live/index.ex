@@ -48,8 +48,6 @@ defmodule TriviaWeb.ArenaLive.Index do
 
   defp apply_action(socket, :new, _params) do
     arena_themes = ArenaThemeContext.get_theme_for_select()
-    # IO.inspect(arena_themes, label: "Arena Themes")
-    # IO.inspect(socket.assigns.current_user, label: "New here User")
 
     socket
     |> assign(:page_title, "New Arena")
@@ -66,6 +64,9 @@ defmodule TriviaWeb.ArenaLive.Index do
 
   @impl true
   def handle_info({TriviaWeb.ArenaLive.FormComponent, {:saved, arena}}, socket) do
+    socket
+    |> put_flash(:info, "This is a saved arena, yaah")
+
     {:noreply, stream_insert(socket, :arenas, arena)}
   end
 

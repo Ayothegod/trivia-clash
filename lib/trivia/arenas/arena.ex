@@ -26,55 +26,37 @@ defmodule Trivia.Arenas.Arena do
       greater_than_or_equal_to: 0,
       message: "Observer capacity must be non-negative."
     )
-
-    # |> validate_players
+    |> validate_players
   end
 
-  # defp validate_players(changeset) do
-  #   case get_field(changeset, :players) do
-  #     [] ->
-  #       add_error(changeset, :players, "Players list must contain at least one player.")
+  defp validate_players(changeset) do
+    case get_field(changeset, :players) do
+      [] ->
+        add_error(changeset, :players, "Players list must contain at least one player.")
 
-  #     players when is_list(players) ->
-  #       if Enum.any?(players, &is_map/1) do
-  #         changeset
-  #       else
-  #         add_error(changeset, :players, "Players list must contain at least one map.")
-  #       end
+      players when is_list(players) ->
+        if Enum.any?(players, &is_map/1) do
+          changeset
+        else
+          add_error(changeset, :players, "Players list must contain at least one map.")
+        end
 
-  #     _ ->
-  #       add_error(changeset, :players, "Players list must be an array.")
-  #   end
-  # end
+      _ ->
+        add_error(changeset, :players, "Players list must be an array.")
+    end
+  end
 end
 
-# def changeset(arena, attrs) do
-#   arena
-#   |> cast(attrs, [:public, :players, :no_of_players, :observer_capacity, :arena_theme_id])
-#   |> validate_required([:public, :players])
-#   |> validate_players()
-# end
-# defp validate_players(changeset) do
-#   validate_change(changeset, :players, fn :players, players ->
-#     Enum.reduce_while(players, [], fn player, acc ->
-#       if is_map(player) and Map.has_key?(player, :id) and Map.has_key?(player, :is_player) do
-#         {:cont, acc}
-#       else
-#         {:halt, [{:players, "Each player must be a map with :id and :is_player keys"}]}
-#       end
-#     end)
-#   end)
-# end
-# NOTE: test data
-# [
-#   %{"id" => "player1", "is_player" => true},
-#   %{"id" => "player2", "is_player" => false}
-# ]
-# defp validate_players(changeset) do
-#   players = get_change(changeset, :players, [])
-#   if Enum.all?(players, &valid_player?/1) do
-#     changeset
-#   else
-#     add_error(changeset, :players, "Invalid player structure")
-#   end
-# end
+# NOTE: arena structure
+#  public            | boolean    | not null |
+#  no_of_players     | integer                        |
+#  observer_capacity | integer                        |
+#  theme_id          | uuid
+#  players           | jsonb[]
+# %{
+#   "no_of_players" => "2",
+#   "observer_capacity" => "6",
+#   "player" => %{id: 18, is_player: true},
+#   "public" => "false",
+#   "theme_id" => "b8dc7896-8b5a-4313-8e1a-894611e74b14"
+# }
