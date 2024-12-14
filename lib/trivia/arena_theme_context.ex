@@ -8,6 +8,19 @@ defmodule Trivia.ArenaThemeContext do
     Repo.all(ArenaTheme)
   end
 
+  def get_theme_for_select do
+    from(t in ArenaTheme,
+      select: %{id: t.id, name: t.name}
+    )
+    |> Repo.all()
+  end
+
+  #   from(t in Trivia.ArenaThemeContext.ArenaTheme,
+  #   where: t.status == true,
+  #   select: %{id: t.id, name: t.name}
+  # )
+  # |> Repo.all()
+
   def get_arena_theme!(id), do: Repo.get!(ArenaTheme, id)
 
   def create_arena_theme(attrs \\ %{}) do

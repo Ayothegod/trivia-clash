@@ -1,12 +1,38 @@
 defmodule TriviaWeb.ArenaLive.Index do
   use TriviaWeb, :live_view
+  require Logger
 
   alias Trivia.Arenas
   alias Trivia.Arenas.Arena
+  alias Trivia.ArenaThemeContext
+  alias TriviaWeb.SharedData
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, stream(socket, :arenas, Arenas.list_arenas())}
+    links = SharedData.links()
+
+    socket =
+      case SharedData.profile(socket) do
+        {:ok, %{user: userData}} ->
+          assign(socket, :user, userData)
+
+        {:error, :not_found} ->
+          Logger.error("User not found!")
+          redirect(socket, to: "/users/logout_redirect")
+
+        {:error, :unauthenticated} ->
+          Logger.error("User is unauthenticated!")
+          redirect(socket, to: "/users/log_in")
+      end
+
+    socket =
+      socket
+      |> assign(:page_title, "Home Page")
+      |> assign(:links, links)
+
+    arenas = Arenas.list_arenas()
+    IO.inspect(arenas, label: "List of arenas")
+    {:ok, stream(socket, :arenas, arenas)}
   end
 
   @impl true
@@ -21,14 +47,20 @@ defmodule TriviaWeb.ArenaLive.Index do
   end
 
   defp apply_action(socket, :new, _params) do
+    arena_themes = ArenaThemeContext.get_theme_for_select()
+    # IO.inspect(arena_themes, label: "Arena Themes")
+    # IO.inspect(socket.assigns.current_user, label: "New here User")
+
     socket
     |> assign(:page_title, "New Arena")
     |> assign(:arena, %Arena{})
+    |> assign(:arena_themes, arena_themes)
+    |> assign(:currentUser, socket.assigns.current_user)
   end
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, "Listing Arenas")
+    |> assign(:page_title, "Home")
     |> assign(:arena, nil)
   end
 

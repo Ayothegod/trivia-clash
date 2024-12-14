@@ -6,11 +6,11 @@ defmodule TriviaWeb.DefaultLive.Index do
   @impl true
   def mount(_params, _session, socket) do
     links = SharedData.links()
+    # IO.inspect(socket.assigns.current_user, label: "Current User")
 
     socket =
       case SharedData.profile(socket) do
         {:ok, %{user: userData}} ->
-          IO.inspect(userData.email, label: "User Email")
           assign(socket, :user, userData)
 
         {:error, :not_found} ->

@@ -19,17 +19,16 @@ defmodule TriviaWeb.ArenaLive.FormComponent do
         phx-change="validate"
         phx-submit="save"
       >
-        <.input field={@form[:is_player]} type="checkbox" label="Is player" />
         <.input
-          field={@form[:players]}
+          field={@form[:theme_id]}
           type="select"
-          multiple
-          label="Players"
-          options={[{"Option 1", "option1"}, {"Option 2", "option2"}]}
+          label="Arena Theme"
+          options={Enum.map(@arena_theme, fn theme -> {theme.name, theme.id} end)}
         />
-        <.input field={@form[:public]} type="checkbox" label="Public" />
+
         <.input field={@form[:no_of_players]} type="number" label="No of players" />
-        <.input field={@form[:observer_capacity]} type="number" label="Observer capacity" />
+        <.input field={@form[:observer_capacity]} type="number" label="Number of observers" />
+        <.input field={@form[:public]} type="checkbox" label="Public" />
         <:actions>
           <.button phx-disable-with="Saving...">Save Arena</.button>
         </:actions>
@@ -74,18 +73,22 @@ defmodule TriviaWeb.ArenaLive.FormComponent do
   end
 
   defp save_arena(socket, :new, arena_params) do
-    case Arenas.create_arena(arena_params) do
-      {:ok, arena} ->
-        notify_parent({:saved, arena})
+    # IO.inspect(socket.assigns.currentUser.id)
 
-        {:noreply,
-         socket
-         |> put_flash(:info, "Arena created successfully")
-         |> push_patch(to: socket.assigns.patch)}
+    params = Map.put(arena_params, "user_id", "user_id")
+    # case Arenas.create_arena(arena_params) do
+    #   {:ok, arena} ->
+    #     notify_parent({:saved, arena})
 
-      {:error, %Ecto.Changeset{} = changeset} ->
-        {:noreply, assign(socket, form: to_form(changeset))}
-    end
+    #     {:noreply,
+    #      socket
+    #      |> put_flash(:info, "Arena created successfully")
+    #      |> push_patch(to: socket.assigns.patch)}
+
+    #   {:error, %Ecto.Changeset{} = changeset} ->
+    #     {:noreply, assign(socket, form: to_form(changeset))}
+    # end
+    IO.inspect(params)
   end
 
   defp notify_parent(msg), do: send(self(), {__MODULE__, msg})
