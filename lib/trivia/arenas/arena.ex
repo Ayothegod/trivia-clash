@@ -9,6 +9,7 @@ defmodule Trivia.Arenas.Arena do
     field :players, {:array, :map}, default: []
     field :no_of_players, :integer, default: 2
     field :observer_capacity, :integer, default: 6
+    field :name, :string
 
     belongs_to :arena_theme, Trivia.ArenaThemeContext.ArenaTheme, foreign_key: :theme_id
 
@@ -17,7 +18,8 @@ defmodule Trivia.Arenas.Arena do
 
   def changeset(arena, attrs) do
     arena
-    |> cast(attrs, [:no_of_players, :observer_capacity, :public, :players, :theme_id])
+    |> cast(attrs, [:no_of_players, :observer_capacity, :public, :players, :theme_id, :name])
+    |> validate_name()
     |> validate_required([:public, :no_of_players, :observer_capacity])
     |> validate_inclusion(:no_of_players, 2..6,
       message: "Number of players must be between 2 and 6."
@@ -27,6 +29,12 @@ defmodule Trivia.Arenas.Arena do
       message: "Observer capacity must be non-negative."
     )
     |> validate_players
+  end
+
+  defp validate_name(changeset) do
+    changeset
+    |> validate_required([:name])
+    |> validate_length(:name, max: 72)
   end
 
   defp validate_players(changeset) do

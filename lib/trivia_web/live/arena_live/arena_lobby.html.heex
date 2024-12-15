@@ -1,18 +1,43 @@
-<.header>
-  Arena {@arena.id}
-  <:subtitle>This is a arena record from your database.</:subtitle>
-  <:actions>
-    <.link patch={~p"/"} phx-click={JS.push_focus()}>
-      <.button>Edit arena</.button>
-    </.link>
-  </:actions>
-</.header>
+<div class="flex flex-col items-start gap-4 h-hero">
+  <div class="h-full w-full flex gap-2">
 
-<.back navigate={~p"/"}>Back to all arenas</.back>
+    <!-- NOTE: Arena details -->
+    <div class="flex flex-col gap-2 flex-grow debug">
+      <h1 class="text-xl font-semibold mb-2">Active public Arenas</h1>
+      <div>
+        <.header>
+          Arena {@arena.id}
+          <:subtitle>This is a arena record from your database.</:subtitle>
+          <:actions>
+            <.link patch={~p"/"} phx-click={JS.push_focus()}>
+              <.button>Edit arena</.button>
+            </.link>
+          </:actions>
+        </.header>
 
-<.modal :if={@live_action==:edit} id="arena-modal" show on_cancel={JS.patch(~p"/arenas/#{@arena}")}>
+        <.back navigate={~p"/"}>Back to all arenas</.back>
+
+      </div>
+    </div>
+
+    <!-- NOTE: ongoing arenas -->
+    <div class="w-2/6 flex-shrink-0 max-h-full overflow-auto p-2">
+      <h1 class="text-lg font-semibold font-mono">Leaderboard</h1>
+
+      <div>
+        You have not joined any arena yet!
+        <p class="text-brand text-sm font-semibold">Add a create or join arena buttons here</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<.modal :if={@live_action==:edit} id="arena-modal" show on_cancel={JS.patch(~p"/")}>
   <.live_component module={TriviaWeb.ArenaLive.FormComponent} id={@arena.id} title={@page_title} action={@live_action}
-    arena={@arena} patch={~p"/arenas/#{@arena}"} />
+    arena={@arena} patch={~p"/"} />
 </.modal>
 
 

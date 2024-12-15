@@ -8,6 +8,10 @@ defmodule Trivia.Arenas do
     Repo.all(Arena)
   end
 
+  # def list_arenas do
+  #   Repo.all(Arena)
+  # end
+
   def get_arena!(id), do: Repo.get!(Arena, id)
 
   def create_arena(attrs \\ %{}) do

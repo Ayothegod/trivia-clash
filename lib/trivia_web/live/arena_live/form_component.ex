@@ -19,6 +19,8 @@ defmodule TriviaWeb.ArenaLive.FormComponent do
         phx-change="validate"
         phx-submit="save"
       >
+        <.input field={@form[:name]} type="text" label="Arena Name" />
+
         <.input
           field={@form[:theme_id]}
           type="select"
@@ -84,21 +86,22 @@ defmodule TriviaWeb.ArenaLive.FormComponent do
     }
 
     params = Map.put(arena_params, "players", [player_structure])
-    IO.inspect(params)
+    # IO.inspect(params)
 
     case Arenas.create_arena(params) do
       {:ok, arena} ->
         notify_parent({:saved, arena})
-        IO.inspect(arena, label: "New arena")
+        # IO.inspect(arena, label: "New arena")
 
         {
           :noreply,
           socket
           |> put_flash(:info, "Arena created successfully")
-          |> push_navigate(to: "/arenas/#{arena.id}", replace: true)
+          |> push_navigate(to: "/arena/#{arena.id}", replace: true)
         }
 
       {:error, %Ecto.Changeset{} = changeset} ->
+        IO.inspect(changeset)
         {:noreply, assign(socket, form: to_form(changeset))}
     end
   end

@@ -1,24 +1,34 @@
 <div class="flex flex-col items-start gap-4 h-hero">
   <div class="h-full w-full flex gap-2">
-    <div class="w-2/6 flex-shrink-0 debug max-h-full overflow-auto p-2">
-      <h1 class="text-xl font-semibold font-mono">Ongoing Arenas</h1>
+    <div class="w-2/6 flex-shrink-0 max-h-full overflow-auto p-2">
+      <h1 class="text-xl font-semibold mb-2">Active public Arenas</h1>
 
       <div class="">
         <%= case @arenas do %>
           <% nil -> %>
             <div class="flex items-center justify-center mt-20">
-              <p>No arena to display right now!!</p>
+              <p>No arena available.</p>
             </div>
             <% [] -> %>
               <div class="flex items-center justify-center mt-20">
                 <p>No arena to display right now!!</p>
               </div>
               <% arenas -> %>
-                <div class="flex flex-col gap-4">
+                <div class="flex flex-col gap-2">
                   <%= for arena <- arenas do %>
-                    <p>
-                      {arena.id}
-                    </p>
+                    <div class="border border-neutral-300 p-2 rounded">
+                      <div class="flex items-center justify-between">
+                        <p>{arena.name}</p>
+
+                        <%= if arena.public do %>
+                          <.link navigate={~p"/arena/#{arena.id}"} class="underline underline-offset-1 text-xs"> Visit
+                            Arena </.link>
+                          <% else %>
+                            <p class="text-neutral-500 text-xs">Private Arena</p>
+                            <% end %>
+                      </div>
+                      <p>{arena.id}</p>
+                    </div>
                     <% end %>
                 </div>
                 <% end %>
@@ -59,7 +69,7 @@
 
   <.modal :if={@live_action in [:new, :edit]} id="arena-modal" show on_cancel={JS.patch(~p"/")}>
     <.live_component module={TriviaWeb.ArenaLive.FormComponent} id={@arena.id || :new} title={@page_title}
-      arena_theme={@arena_themes} action={@live_action} arena={@arena} currentUser={@currentUser} />
+      arena_theme={@arena_themes} action={@live_action} arena={@arena} patch={~p"/"} currentUser={@currentUser} />
   </.modal>
 </div>
 

@@ -26,6 +26,7 @@ defmodule TriviaWeb.DefaultLive.Index do
       end
 
     arenas = Arenas.list_arenas()
+    IO.inspect(arenas)
 
     socket =
       socket
