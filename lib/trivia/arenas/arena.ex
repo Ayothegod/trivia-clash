@@ -11,9 +11,8 @@ defmodule Trivia.Arenas.Arena do
     field :name, :string
 
     has_many :arena_players, Trivia.Arenas.ArenaPlayer
-    has_many :users, through: [:arena_players, :user]
-
     belongs_to :arena_theme, Trivia.ArenaThemeContext.ArenaTheme, foreign_key: :theme_id
+    # has_many :users, through: [:arena_players, :user]
 
     timestamps(type: :utc_datetime)
   end
@@ -37,21 +36,4 @@ defmodule Trivia.Arenas.Arena do
     |> validate_required([:name])
     |> validate_length(:name, max: 72)
   end
-
-  # defp validate_players(changeset) do
-  #   case get_field(changeset, :players) do
-  #     [] ->
-  #       add_error(changeset, :players, "Players list must contain at least one player.")
-
-  #     players when is_list(players) ->
-  #       if Enum.any?(players, &is_map/1) do
-  #         changeset
-  #       else
-  #         add_error(changeset, :players, "Players list must contain at least one map.")
-  #       end
-
-  #     _ ->
-  #       add_error(changeset, :players, "Players list must be an array.")
-  #   end
-  # end
 end

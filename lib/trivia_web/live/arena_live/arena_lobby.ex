@@ -45,7 +45,7 @@ defmodule TriviaWeb.ArenaLive.ArenaLobby do
   end
 
   defp apply_action(socket, :index, %{"id" => id}) do
-    arena = Arenas.get_arena!(id)
+    arena = Arenas.get_arena_with_theme_players!(id)
     IO.inspect(arena)
 
     {:noreply,

@@ -18,6 +18,11 @@ defmodule Trivia.Arenas.ArenaPlayers do
     |> Repo.insert()
   end
 
+  #   has_many :arena_players, Trivia.Arenas.ArenaPlayer
+  # has_many :arenas, through: [:arena_players, :arena]
+
+  # you say the user has many arena_players, talking for a single user, are those arena_players also itself in many places?
+
   # def update_arena(%Arena{} = arena, attrs) do
   #   arena
   #   |> Arena.changeset(attrs)

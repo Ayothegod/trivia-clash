@@ -2,6 +2,7 @@ defmodule TriviaWeb.DefaultLive.FormComponent do
   use TriviaWeb, :live_component
 
   alias Trivia.Arenas
+  alias Trivia.Arenas.ArenaPlayers
 
   @impl true
   def render(assigns) do
@@ -79,43 +80,34 @@ defmodule TriviaWeb.DefaultLive.FormComponent do
 
   defp save_arena(socket, :new, arena_params) do
     user = socket.assigns.currentUser
-    IO.inspect(user)
-    IO.inspect(arena_params)
 
-    # %{
-    #   "name" => "",
-    #   "no_of_players" => "2",
-    #   "observer_capacity" => "6",
-    #   "public" => "false",
-    #   "theme_id" => "b8dc7896-8b5a-4313-8e1a-894611e74b14"
-    # }
+    case Arenas.create_arena(arena_params) do
+      {:ok, arena} ->
+        case ArenaPlayers.create_arena_player(%{
+               arena_id: Ecto.UUID.cast!(arena.id),
+               user_id: user.id,
+               is_host: true,
+               is_player: true
+             }) do
+          {:ok, _arena_player} ->
+            notify_parent({:saved, arena})
 
-    # Repo.insert(%Trivia.Arenas.ArenaPlayer{
-    #   arena_id: arena.id,
-    #   user_id: user.id, # Assuming user exists
-    #   is_player: true
-    # })
+            {
+              :noreply,
+              socket
+              |> put_flash(:info, "Arena created successfully")
+              |> push_navigate(to: "/arena/#{arena.id}", replace: true)
+            }
 
-    # params = Map.put(arena_params, "players", [player_structure])
-    # IO.inspect(params)
+          {:error, %Ecto.Changeset{} = changeset} ->
+            IO.inspect(changeset)
+            {:noreply, assign(socket, form: to_form(changeset))}
+        end
 
-    # case Arenas.create_arena(params) do
-    #   {:ok, arena} ->
-    #     notify_parent({:saved, arena})
-    #     # IO.inspect(arena, label: "New arena")
-
-    #     {
-    #       :noreply,
-    #       socket
-    #       |> put_flash(:info, "Arena created successfully")
-    #       |> push_navigate(to: "/arena/#{arena.id}", replace: true)
-    #     }
-
-    #   {:error, %Ecto.Changeset{} = changeset} ->
-    #     IO.inspect(changeset)
-    #     {:noreply, assign(socket, form: to_form(changeset))}
-    # end
-    {:noreply, socket}
+      {:error, %Ecto.Changeset{} = changeset} ->
+        IO.inspect(changeset)
+        {:noreply, assign(socket, form: to_form(changeset))}
+    end
   end
 
   defp notify_parent(msg), do: send(self(), {__MODULE__, msg})

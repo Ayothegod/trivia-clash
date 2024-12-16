@@ -8,17 +8,6 @@ defmodule TriviaWeb.DefaultLive.Index do
   alias Trivia.ArenaThemeContext
 
   # embed_templates "components/*"
-  # params: %{"bio" => "Im a tester yeah!", "fullname" => "Tester Tester"}
-  # params: %{"bio" => "Im a tester yeah!", "fullname" => "Tester Tester", "user_id" => 20}
-
-  # Repo.insert(%Trivia.Arenas.ArenaPlayer{
-  #   arena_id: arena.id,
-  #   user_id: player_id, # Reference to the user
-  #   is_player: true
-  # })
-  # arena_with_players =
-  #   Repo.get!(Trivia.Arenas.Arena, arena_id)
-  #   |> Repo.preload(:arena_players)
 
   @impl true
   def mount(_params, _session, socket) do
@@ -79,8 +68,7 @@ defmodule TriviaWeb.DefaultLive.Index do
 
   @impl true
   def handle_info({TriviaWeb.ArenaLive.FormComponent, {:saved, arena}}, socket) do
-    # {:noreply, stream_insert(socket, :arenas, arena)}
-    IO.inspect("got here")
+    # IO.inspect("got here!!!!!!!!!!!!!!!!!!!")
     updated_arenas = [arena | socket.assigns.arenas]
     {:noreply, assign(socket, :arenas, updated_arenas)}
   end
