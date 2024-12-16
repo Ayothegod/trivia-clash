@@ -72,6 +72,20 @@ defmodule TriviaWeb.ArenaLive.ArenaLobby do
     #  update(socket, :profiles, fn profiles ->
     #    Enum.reject(profiles, &(&1.id == id))
     #  end)}
+
+    # %Trivia.Arenas.Arena{
+    #   __meta__: #Ecto.Schema.Metadata<:loaded, "arenas">,
+    #   id: "e38d864b-b6c1-4014-9ce6-133f80e8ed98",
+    #   public: true,
+    #   players: [%{"id" => 18, "is_player" => true}],
+    #   no_of_players: 2,
+    #   observer_capacity: 6,
+    #   name: "Test arena",
+    #   theme_id: "b8dc7896-8b5a-4313-8e1a-894611e74b14",
+    #   arena_theme: #Ecto.Association.NotLoaded<association :arena_theme is not loaded>,
+    #   inserted_at: ~U[2024-12-14 20:37:25Z],
+    #   updated_at: ~U[2024-12-14 20:37:25Z]
+    # }
     {:noreply, socket}
   end
 end
