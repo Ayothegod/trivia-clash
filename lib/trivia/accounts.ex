@@ -71,34 +71,6 @@ defmodule Trivia.Accounts do
     Repo.one!(query)
   end
 
-  # PROFILE!!!!!!!!!!!!!!: %{
-  #   user: #Trivia.Accounts.User<
-  #     __meta__: #Ecto.Schema.Metadata<:loaded, "users">,
-  #     id: 13,
-  #     email: "Test@gmail.com",
-  #     confirmed_at: nil,
-  #     user_profile: %Trivia.UserProfile.Profile{
-  #       __meta__: #Ecto.Schema.Metadata<:loaded, "user_profile">,
-  #       id: 31,
-  #       arenas_joined: [],
-  #       games_played: [],
-  #       followers: [],
-  #       followings: [],
-  #       past_achievements: [],
-  #       past_summaries: [],
-  #       summary_is_public: true,
-  #       bio: "Just a chill guy! ehh",
-  #       user_id: 13,
-  #       user: #Ecto.Association.NotLoaded<association :user is not loaded>,
-  #       inserted_at: ~U[2024-12-12 06:30:19Z],
-  #       updated_at: ~U[2024-12-12 06:30:19Z]
-  #     },
-  #     inserted_at: ~U[2024-12-12 04:05:59Z],
-  #     updated_at: ~U[2024-12-12 04:05:59Z],
-  #     ...
-  #   >
-  # }
-
   ## User registration
 
   @doc """

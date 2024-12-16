@@ -1,55 +1,101 @@
 <div class="flex flex-col items-start gap-4 h-hero">
-  <div class="h-full w-full flex gap-2">
+  <div class="h-full w-full flex gap-2 pb-2">
 
     <!-- NOTE: Arena details -->
-    <div class="flex flex-col gap-2 flex-grow debug">
-      <h1 class="text-xl font-semibold mb-2">Active public Arenas</h1>
-      <.iconify icon="heroicons:cog-6-tooth" class="w-8 h-8 group-hover:text-brand" />
+    <div class="flex flex-col gap-2 flex-grow">
+      <div class="flex items-center justify-between ">
+        <div class="flex gap-2">
+          <h1 class="text-xl font-semibold mb-2">{@arena.name}</h1>
+          <p class="text-neutral-500 text-xs font-medium">
+            {if @arena.public, do: "Public" , else: "Private"}
+          </p>
+        </div>
 
-      <div>
-        <.header>
-          Arena {@arena.id}
-          <:subtitle>This is a arena record from your database.</:subtitle>
-          <:actions>
-            <.link patch={~p"/"} phx-click={JS.push_focus()}>
-              <.button>Edit arena</.button>
-            </.link>
-          </:actions>
-        </.header>
-
-        <.back navigate={~p"/"}>Back to all arenas</.back>
-
+        <.link patch={~p"/arena/#{@arena.id}/settings"} phx-click={JS.push_focus()}>
+          <.iconify icon="heroicons:cog-6-tooth"
+            class="w-7 h-7 group-hover:text-brand cursor-pointer hover:animate-spin" />
+        </.link>
       </div>
+
+      <div class=" border-neutral-300 p-2 rounded h-full">
+        <div class="flex justify-between">
+
+          <div class="flex flex-col gap-6">
+            <div class="flex gap-2">
+              <p class="text-brand w-24">Host:</p>
+              <span class="font-normal text-black">Ayomide</span>
+            </div>
+
+            <div class="flex gap-2">
+              <p class="text-brand w-24">Players:</p>
+              <ul class="">
+                <li>Player one</li>
+                <li>Player two</li>
+                <li>Player three</li>
+              </ul>
+            </div>
+
+            <div class="flex gap-2">
+              <p class="text-brand w-24">Observers:</p>
+              <%= if @arena.public==false do %>
+                <p>No observers for private arena.</p>
+                <% else %>
+                  <ul class="">
+                    <li>Player one</li>
+                    <li>Player two</li>
+                    <li>Player three</li>
+                  </ul>
+                  <% end %>
+            </div>
+          </div>
+
+          <div>
+            <p>Number of players allowed: {@arena.no_of_players}</p>
+            <p>
+              {if @arena.public, do: "Max no of Observers: #{@arena.observer_capacity}" , else: ""}
+            </p>
+
+            <div class="border border-neutral-300 p-2 rounded-md">{@arena.id}</div>
+          </div>
+        </div>
+      </div>
+
+      <Button.button phx-click={JS.push("exit-arena", value: %{id: @arena.id}) |> hide("##{@arena.id}")}
+        data-confirm="Are you sure?" size="small" color="danger" class="w-max ">Exit Arena</Button.button>
     </div>
 
     <!-- NOTE: ongoing arenas -->
-    <div class="w-2/6 flex-shrink-0 max-h-full overflow-auto p-2">
-      <h1 class="text-lg font-semibold font-mono">Leaderboard</h1>
 
-      <div>
-        You have not joined any arena yet!
-        <p class="text-brand text-sm font-semibold">Add a create or join arena buttons here</p>
+    <div class="border border-neutral-300 p-2 rounded w-2/6 flex-shrink-0 max-h-full overflow-auto">
+      <h1 class="text-lg font-semibold">Leaderboard</h1>
+
+      <div class="flex flex-col gap-4 items-center justify-center mt-20">
+        <p>The game has not started yet!</p>
+        <Button.button>Start Game -></Button.button>
       </div>
     </div>
   </div>
 </div>
 
-
-
-
-<.modal :if={@live_action==:edit} id="arena-modal" show on_cancel={JS.patch(~p"/")}>
-  <.live_component module={TriviaWeb.ArenaLive.FormComponent} id={@arena.id} title={@page_title} action={@live_action}
+<.modal :if={@live_action==:settings} id="arena-settings" show on_cancel={JS.patch(~p"/arena/#{@arena.id}")}>
+  <.live_component module={TriviaWeb.ArenaLobby.EditArena} id={@arena.id} title={@page_title} action={@live_action}
     arena={@arena} patch={~p"/"} />
 </.modal>
 
 
-<%!-- <:item title="Arena theme">{@arena.arena_theme}</:item>
 
-  <.list>
-    <:item title="Is player">{@arena.is_player}</:item>
-    <:item title="Players">{@arena.players}</:item>
-    <:item title="Public">{@arena.public}</:item>
-    <:item title="No of players">{@arena.no_of_players}</:item>
-    <:item title="Observer capacity">{@arena.observer_capacity}</:item>
-  </.list>
+
+<%!-- <Button.button phx-click="exit-arena" size="small" color="danger" class="w-max ">Exit Arena</Button.button>
+
+  <:item title="Arena theme">{@arena.arena_theme}</:item>
+  <.header>
+    Arena {@arena.id}
+    <:subtitle>This is a arena record from your database.</:subtitle>
+    <:actions>
+      <.link patch={~p"/"} phx-click={JS.push_focus()}>
+        <.button>Edit arena</.button>
+      </.link>
+    </:actions>
+  </.header>
+
   --%>

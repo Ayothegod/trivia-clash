@@ -12,7 +12,25 @@ defmodule Trivia.Arenas do
   #   Repo.all(Arena)
   # end
 
-  def get_arena!(id), do: Repo.get!(Arena, id)
+  # query =
+  #   from u in User,
+  #     preload: [:user_profile],
+  #     where: u.id == ^id,
+  #     select: %{user: u}
+
+  # def get_arena!(id) do
+  #   query =
+  #     from a in Arena,
+  #     preload: [:arena_themes],
+  #     where u.id == ^id,
+  #     select: u
+
+  #   Repo.get!(query)
+  # end
+
+  def get_arena!(id) do
+    Repo.get!(Arena, id)
+  end
 
   def create_arena(attrs \\ %{}) do
     %Arena{}

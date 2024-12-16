@@ -66,6 +66,7 @@ defmodule TriviaWeb.Router do
       live "/", DefaultLive.Index, :index
       live "/create/new", DefaultLive.Index, :new
       live "/arena/:id", ArenaLive.ArenaLobby, :index
+      live "/arena/:id/settings", ArenaLive.ArenaLobby, :settings
 
       # TODO: profile
       live "/profile", ProfileLive.Index, :index

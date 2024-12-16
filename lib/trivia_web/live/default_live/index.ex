@@ -7,6 +7,8 @@ defmodule TriviaWeb.DefaultLive.Index do
   alias Trivia.Arenas.Arena
   alias Trivia.ArenaThemeContext
 
+  # embed_templates "components/*"
+
   @impl true
   def mount(_params, _session, socket) do
     links = SharedData.links()
@@ -26,7 +28,7 @@ defmodule TriviaWeb.DefaultLive.Index do
       end
 
     arenas = Arenas.list_arenas()
-    IO.inspect(arenas)
+    # IO.inspect(arenas)
 
     socket =
       socket
