@@ -8,6 +8,10 @@ defmodule Trivia.Arenas do
     Repo.all(Arena)
   end
 
+  # arena_with_players =
+  #   Repo.get!(Trivia.Arenas.Arena, arena.id)
+  #   |> Repo.preload([:arena_players, :users])
+
   # def list_arenas do
   #   Repo.all(Arena)
   # end

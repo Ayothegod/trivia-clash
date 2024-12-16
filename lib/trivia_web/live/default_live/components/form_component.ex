@@ -79,31 +79,43 @@ defmodule TriviaWeb.DefaultLive.FormComponent do
 
   defp save_arena(socket, :new, arena_params) do
     user = socket.assigns.currentUser
+    IO.inspect(user)
+    IO.inspect(arena_params)
 
-    player_structure = %{
-      id: user.id,
-      is_player: true
-    }
+    # %{
+    #   "name" => "",
+    #   "no_of_players" => "2",
+    #   "observer_capacity" => "6",
+    #   "public" => "false",
+    #   "theme_id" => "b8dc7896-8b5a-4313-8e1a-894611e74b14"
+    # }
 
-    params = Map.put(arena_params, "players", [player_structure])
+    # Repo.insert(%Trivia.Arenas.ArenaPlayer{
+    #   arena_id: arena.id,
+    #   user_id: user.id, # Assuming user exists
+    #   is_player: true
+    # })
+
+    # params = Map.put(arena_params, "players", [player_structure])
     # IO.inspect(params)
 
-    case Arenas.create_arena(params) do
-      {:ok, arena} ->
-        notify_parent({:saved, arena})
-        # IO.inspect(arena, label: "New arena")
+    # case Arenas.create_arena(params) do
+    #   {:ok, arena} ->
+    #     notify_parent({:saved, arena})
+    #     # IO.inspect(arena, label: "New arena")
 
-        {
-          :noreply,
-          socket
-          |> put_flash(:info, "Arena created successfully")
-          |> push_navigate(to: "/arena/#{arena.id}", replace: true)
-        }
+    #     {
+    #       :noreply,
+    #       socket
+    #       |> put_flash(:info, "Arena created successfully")
+    #       |> push_navigate(to: "/arena/#{arena.id}", replace: true)
+    #     }
 
-      {:error, %Ecto.Changeset{} = changeset} ->
-        IO.inspect(changeset)
-        {:noreply, assign(socket, form: to_form(changeset))}
-    end
+    #   {:error, %Ecto.Changeset{} = changeset} ->
+    #     IO.inspect(changeset)
+    #     {:noreply, assign(socket, form: to_form(changeset))}
+    # end
+    {:noreply, socket}
   end
 
   defp notify_parent(msg), do: send(self(), {__MODULE__, msg})

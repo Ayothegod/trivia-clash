@@ -1,13 +1,12 @@
-defmodule Trivia.ArenaPlayers.ArenaPlayer do
+defmodule Trivia.Arenas.ArenaPlayer do
   use Ecto.Schema
   import Ecto.Changeset
 
   @primary_key {:id, :binary_id, autogenerate: true}
-  @foreign_key_type :binary_id
   schema "arena_players" do
     belongs_to :arena, Trivia.Arenas.Arena
-    # belongs_to :player, Trivia.Players.Player
-    field :is_player, :boolean, default: false
+    belongs_to :user, Trivia.Accounts.User
+    field :is_player, :boolean, default: true
 
     timestamps(type: :utc_datetime)
   end
@@ -15,7 +14,9 @@ defmodule Trivia.ArenaPlayers.ArenaPlayer do
   @doc false
   def changeset(arena_player, attrs) do
     arena_player
-    |> cast(attrs, [:is_player, :arena_id])
-    |> validate_required([:is_player, :arena_id])
+    |> cast(attrs, [:arena_id, :user_id, :is_player])
+    |> validate_required([:arena_id, :user_id, :is_player])
+    |> assoc_constraint(:arena)
+    |> assoc_constraint(:user)
   end
 end
