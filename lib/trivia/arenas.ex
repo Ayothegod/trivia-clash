@@ -17,6 +17,11 @@ defmodule Trivia.Arenas do
     |> Repo.preload([:arena_players, :arena_theme])
   end
 
+  def get_arena_with_players!(id) do
+    Repo.get!(Trivia.Arenas.Arena, id)
+    |> Repo.preload([:arena_players])
+  end
+
   def create_arena(attrs \\ %{}) do
     %Arena{}
     |> Arena.changeset(attrs)

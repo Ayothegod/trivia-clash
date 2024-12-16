@@ -2,7 +2,7 @@ defmodule TriviaWeb.ArenaLive.ArenaLobby do
   use TriviaWeb, :live_view
 
   alias Trivia.Arenas
-  # alias Trivia.Arenas.Arena
+  alias Trivia.Arenas.ArenaPlayers
   alias TriviaWeb.SharedData
   # alias Trivia.ArenaThemeContext
 
@@ -46,7 +46,8 @@ defmodule TriviaWeb.ArenaLive.ArenaLobby do
 
   defp apply_action(socket, :index, %{"id" => id}) do
     arena = Arenas.get_arena_with_theme_players!(id)
-    IO.inspect(arena)
+    # IO.inspect(arena)
+    # IO.inspect(socket.assigns)
 
     {:noreply,
      socket
@@ -56,14 +57,43 @@ defmodule TriviaWeb.ArenaLive.ArenaLobby do
 
   @impl true
   def handle_event("exit-arena", %{"id" => id}, socket) do
-    IO.inspect(id)
-    # arena = Arenas.get_arena!(id)
-    # {:ok, _} = Arenas.delete_arena(arena)
+    user = socket.assigns.current_user
+    arena = Arenas.get_arena_with_players!(id)
+
+    for player <- arena.arena_players do
+      if player.user_id !== user.id do
+        {:noreply, socket}
+      end
+
+      if player.is_player do
+        case ArenaPlayers.update_arena_players(player, %{is_player: false}) do
+          {:ok, arena_player} ->
+            IO.inspect(arena_player.is_player, label: "Players updated")
+
+            socket
+            |> put_flash(:info, "Player has left the arena.")
+
+          {:error, %Ecto.Changeset{} = changeset} ->
+            IO.inspect(changeset, label: "error")
+            {:noreply, assign(socket, form: to_form(changeset))}
+        end
+      end
+
+      if player.is_host do
+        IO.inspect("You cant be host")
+      end
+
+      IO.inspect("got here 2")
+    end
+
+    IO.inspect("got here 3")
+    # |> push_navigate(to: "/arenas/#{arena.id}", replace: true)
     {:noreply, socket}
   end
 
   def handle_event("delete", %{"id" => id}, socket) do
     IO.inspect(id)
+
     # Logic to delete the profile by `id`
     # Profiles.delete_profile(id)
 
@@ -72,20 +102,6 @@ defmodule TriviaWeb.ArenaLive.ArenaLobby do
     #  update(socket, :profiles, fn profiles ->
     #    Enum.reject(profiles, &(&1.id == id))
     #  end)}
-
-    # %Trivia.Arenas.Arena{
-    #   __meta__: #Ecto.Schema.Metadata<:loaded, "arenas">,
-    #   id: "e38d864b-b6c1-4014-9ce6-133f80e8ed98",
-    #   public: true,
-    #   players: [%{"id" => 18, "is_player" => true}],
-    #   no_of_players: 2,
-    #   observer_capacity: 6,
-    #   name: "Test arena",
-    #   theme_id: "b8dc7896-8b5a-4313-8e1a-894611e74b14",
-    #   arena_theme: #Ecto.Association.NotLoaded<association :arena_theme is not loaded>,
-    #   inserted_at: ~U[2024-12-14 20:37:25Z],
-    #   updated_at: ~U[2024-12-14 20:37:25Z]
-    # }
     {:noreply, socket}
   end
 end
