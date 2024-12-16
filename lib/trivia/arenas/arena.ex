@@ -9,6 +9,7 @@ defmodule Trivia.Arenas.Arena do
     field :no_of_players, :integer, default: 2
     field :observer_capacity, :integer, default: 6
     field :name, :string
+    field :is_ended, :boolean, default: false
 
     has_many :arena_players, Trivia.Arenas.ArenaPlayer
     belongs_to :arena_theme, Trivia.ArenaThemeContext.ArenaTheme, foreign_key: :theme_id
