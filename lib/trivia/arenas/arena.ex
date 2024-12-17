@@ -20,7 +20,7 @@ defmodule Trivia.Arenas.Arena do
 
   def changeset(arena, attrs) do
     arena
-    |> cast(attrs, [:no_of_players, :observer_capacity, :public, :theme_id, :name])
+    |> cast(attrs, [:no_of_players, :observer_capacity, :public, :theme_id, :name, :is_ended])
     |> validate_name()
     |> validate_required([:public, :no_of_players, :observer_capacity])
     |> validate_inclusion(:no_of_players, 2..6,

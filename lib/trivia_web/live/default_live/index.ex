@@ -27,7 +27,7 @@ defmodule TriviaWeb.DefaultLive.Index do
           redirect(socket, to: "/users/log_in")
       end
 
-    arenas = Arenas.list_arenas()
+    arenas = Arenas.list_active_arenas()
     IO.inspect(arenas)
 
     socket =

@@ -46,7 +46,7 @@ defmodule TriviaWeb.ArenaLive.ArenaLobby do
 
   defp apply_action(socket, :index, %{"id" => id}) do
     arena = Arenas.get_arena_with_theme_players!(id)
-    # IO.inspect(arena)
+    IO.inspect(arena)
     # IO.inspect(socket.assigns)
 
     {:noreply,
@@ -65,30 +65,35 @@ defmodule TriviaWeb.ArenaLive.ArenaLobby do
         {:noreply, socket}
       end
 
+      if player.is_host do
+        updated_arena = Arenas.update_arena(arena, %{is_ended: true})
+        IO.inspect(updated_arena)
+
+        # socket
+        # |> put_flash(:info, "Player has left the arena.")
+      end
+
       if player.is_player do
         case ArenaPlayers.update_arena_players(player, %{is_player: false}) do
           {:ok, arena_player} ->
             IO.inspect(arena_player.is_player, label: "Players updated")
 
-            socket
-            |> put_flash(:info, "Player has left the arena.")
+          # socket
+          # |> put_flash(:info, "Player has left the arena.")
 
           {:error, %Ecto.Changeset{} = changeset} ->
             IO.inspect(changeset, label: "error")
             {:noreply, assign(socket, form: to_form(changeset))}
         end
       end
-
-      if player.is_host do
-        IO.inspect("You cant be host")
-      end
-
-      IO.inspect("got here 2")
     end
 
-    IO.inspect("got here 3")
-    # |> push_navigate(to: "/arenas/#{arena.id}", replace: true)
-    {:noreply, socket}
+    {
+      :noreply,
+      socket
+      |> put_flash(:info, "Host has left and ended the arena successfully")
+      |> push_navigate(to: "/", replace: true)
+    }
   end
 
   def handle_event("delete", %{"id" => id}, socket) do

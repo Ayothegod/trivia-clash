@@ -4,8 +4,32 @@ defmodule Trivia.Arenas do
 
   alias Trivia.Arenas.Arena
 
-  def list_arenas do
-    Repo.all(Arena)
+  # def list_arenas do
+  #   Repo.all(Arena)
+  # end
+
+  # query =
+  #   from u in User,
+  #     preload: [:user_profile],
+  #     where: u.id == ^id,
+  #     select: %{user: u}
+
+  # def test do
+  #   query =
+  #     from p in Profile,
+  #       join: u in User,
+  #       on: p.user_id == u.id,
+  #       where: p.id == ^id,
+  #       select: %{profile: p, user: u}
+  # end
+
+  def list_active_arenas do
+    query =
+      from a in Arena,
+        where: a.is_ended == false
+
+    # select: %{arena: a}
+    Repo.all(query)
   end
 
   def get_arena!(id) do
